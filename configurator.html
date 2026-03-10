@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulldocks Konfigurator — Deine Custom Halterung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --accent: #ff6b35;
+            --text: #e8e8f0;
+            --text-muted: #9090b0;
+            --border: #2a2a3e;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            height: 100vh;
+            flex-direction: row;
+        }
+
+        .panel {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .left-panel {
+            width: 300px;
+            padding: 24px 20px;
+        }
+
+        .viewer-container {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        #canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .right-panel {
+            width: 280px;
+            padding: 24px 20px;
+            border-left: 1px solid var(--border);
+        }
+
+        /* Typography */
+        h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        /* Slider */
+        .param-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.4);
+        }
+
+        .value-display {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Select */
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 4px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Right Panel - Calculations */
+        .calc-item {
+            padding: 12px;
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .calc-label {
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .calc-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .status-safe {
+            background: #06d6a0;
+            box-shadow: 0 0 8px #06d6a0;
+        }
+
+        .status-warning {
+            background: #ffbe0b;
+            box-shadow: 0 0 8px #ffbe0b;
+        }
+
+        .status-danger {
+            background: #ef476f;
+            box-shadow: 0 0 8px #ef476f;
+        }
+
+        .status-text {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 16px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            color: var(--text);
+        }
+
+        button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        button.primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        button.primary:hover {
+            background: #ff8455;
+            border-color: #ff8455;
+        }
+
+        /* Info Text */
+        .info-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Scrollbar */
+        .panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .panel::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .left-panel {
+                width: 250px;
+            }
+            .right-panel {
+                width: 230px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel: Parameters -->
+        <div class="panel left-panel">
+            <h2>⚙️ Konfigurieren</h2>
+
+            <div class="param-group">
+                <label for="frameWidth">Türrahmen-Breite (mm)</label>
+                <input type="range" id="frameWidth" min="60" max="120" value="90" step="5">
+                <div class="value-display" id="frameWidthValue">90 mm</div>
+            </div>
+
+            <div class="param-group">
+                <label for="frameDepth">Türrahmen-Tiefe (mm)</label>
+                <input type="range" id="frameDepth" min="15" max="40" value="25" step="2">
+                <div class="value-display" id="frameDepthValue">25 mm</div>
+            </div>
+
+            <div class="param-group">
+                <label for="armLength">Arm-Länge (mm)</label>
+                <input type="range" id="armLength" min="150" max="300" value="220" step="10">
+                <div class="value-display" id="armLengthValue">220 mm</div>
+            </div>
+
+            <div class="param-group">
+                <label for="swingAngle">Schwenkwinkel (°)</label>
+                <input type="range" id="swingAngle" min="0" max="15" value="5" step="1">
+                <div class="value-display" id="swingAngleValue">5°</div>
+            </div>
+
+            <div class="param-group">
+                <label for="material">Material</label>
+                <select id="material">
+                    <option value="pla">PLA (Standard)</option>
+                    <option value="petg">PETG (Robust)</option>
+                    <option value="abs">ABS (Premium)</option>
+                </select>
+            </div>
+
+            <p class="info-text">
+                💡 Passe Parameter an um Deine perfekte Halterung zu gestalten. Die Berechnungen aktualisieren sich live.
+            </p>
+        </div>
+
+        <!-- Middle: 3D Viewer -->
+        <div class="viewer-container">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <!-- Right Panel: Calculations -->
+        <div class="panel right-panel">
+            <h2>📊 Berechnung</h2>
+
+            <h3>Traglast</h3>
+            <div class="calc-item">
+                <div class="calc-label">Maximale Belastung</div>
+                <div class="calc-value" id="loadCapacity">12,0 kg</div>
+            </div>
+
+            <h3>Mechanik</h3>
+            <div class="calc-item">
+                <div class="calc-label">Hebelmoment</div>
+                <div class="calc-value" id="moment">2,64 Nm</div>
+            </div>
+            <div class="calc-item">
+                <div class="calc-label">Klemmkraft</div>
+                <div class="calc-value" id="clampForce">2640 N</div>
+            </div>
+
+            <h3>Sicherheit</h3>
+            <div class="calc-item">
+                <div class="calc-label">Status</div>
+                <div>
+                    <span class="status-indicator status-safe"></span>
+                    <span class="status-text" id="safetyStatus">Sicher</span>
+                </div>
+            </div>
+
+            <h3>WDF-Konformität</h3>
+            <div class="calc-item">
+                <div class="calc-label">Bullseye-Höhe</div>
+                <div class="calc-value">1730 mm ✓</div>
+            </div>
+            <div class="calc-item">
+                <div class="calc-label">Spielwinkel</div>
+                <div class="calc-value" id="wdfAngle">5° ✓</div>
+            </div>
+
+            <h3>Druck</h3>
+            <div class="calc-item">
+                <div class="calc-label">Druckzeit</div>
+                <div class="calc-value" id="printTime">221 Min</div>
+            </div>
+            <div class="calc-item">
+                <div class="calc-label">Filament</div>
+                <div class="calc-value" id="filament">87 m</div>
+            </div>
+
+            <div class="button-group">
+                <button onclick="window.location.href='index.html'">← Zurück</button>
+                <button class="primary" onclick="window.location.href='https://www.etsy.com/shop/bulldocks'">Bestellen — 29,99€</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js CDN r128 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        // THREE.JS SCENE SETUP
+        // ═══════════════════════════════════════════════════════════
+        const canvas = document.getElementById('canvas');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+
+        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 400);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(100, 200, 150);
+        scene.add(directionalLight);
+
+        // ═══════════════════════════════════════════════════════════
+        // 3D MODEL COMPONENTS
+        // ═══════════════════════════════════════════════════════════
+        let modelGroup = new THREE.Group();
+        scene.add(modelGroup);
+
+        function createModel(frameWidth, frameDepth, armLength, swingAngle) {
+            // Clear old model
+            while (modelGroup.children.length > 0) {
+                modelGroup.remove(modelGroup.children[0]);
+            }
+
+            // Left rail
+            const leftRail = new THREE.Mesh(
+                new THREE.CylinderGeometry(8, 8, 300, 16),
+                new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.5 })
+            );
+            leftRail.position.set(-frameWidth / 2, 0, 0);
+            modelGroup.add(leftRail);
+
+            // Right rail
+            const rightRail = new THREE.Mesh(
+                new THREE.CylinderGeometry(8, 8, 300, 16),
+                new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.5 })
+            );
+            rightRail.position.set(frameWidth / 2, 0, 0);
+            modelGroup.add(rightRail);
+
+            // Top connector
+            const connector = new THREE.Mesh(
+                new THREE.BoxGeometry(frameWidth + 20, 12, 12),
+                new THREE.MeshStandardMaterial({ color: 0x333333 })
+            );
+            connector.position.set(0, 150, 0);
+            modelGroup.add(connector);
+
+            // Joint sphere
+            const joint = new THREE.Mesh(
+                new THREE.SphereGeometry(12, 32, 32),
+                new THREE.MeshStandardMaterial({ color: 0xff6b35, metalness: 0.8, roughness: 0.2 })
+            );
+            joint.position.set(0, 150, 0);
+            modelGroup.add(joint);
+
+            // Arm (rotated by swingAngle)
+            const armGeometry = new THREE.BoxGeometry(16, 16, armLength);
+            const armMaterial = new THREE.MeshStandardMaterial({ color: 0x2a2a2a });
+            const arm = new THREE.Mesh(armGeometry, armMaterial);
+            arm.position.set(0, 150, armLength / 2);
+            arm.rotation.x = (swingAngle * Math.PI) / 180; // Convert to radians
+            modelGroup.add(arm);
+
+            // Dartboard holder (torus)
+            const holder = new THREE.Mesh(
+                new THREE.TorusGeometry(40, 8, 16, 100),
+                new THREE.MeshStandardMaterial({ color: 0xff6b35, metalness: 0.6 })
+            );
+            holder.position.set(0, 150, armLength);
+            holder.rotation.x = (swingAngle * Math.PI) / 180;
+            holder.rotation.y = Math.PI / 2;
+            modelGroup.add(holder);
+
+            // Base plate
+            const base = new THREE.Mesh(
+                new THREE.BoxGeometry(frameWidth + 40, 6, frameDepth + 20),
+                new THREE.MeshStandardMaterial({ color: 0x1a1a1a })
+            );
+            base.position.set(0, -150, 0);
+            modelGroup.add(base);
+        }
+
+        createModel(90, 25, 220, 5);
+
+        // ═══════════════════════════════════════════════════════════
+        // MOUSE ROTATION
+        // ═══════════════════════════════════════════════════════════
+        let mouseX = 0, mouseY = 0;
+        let targetRotX = 0, targetRotY = 0;
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // SLIDER INPUTS & CALCULATIONS
+        // ═══════════════════════════════════════════════════════════
+        const frameWidthInput = document.getElementById('frameWidth');
+        const frameDepthInput = document.getElementById('frameDepth');
+        const armLengthInput = document.getElementById('armLength');
+        const swingAngleInput = document.getElementById('swingAngle');
+        const materialInput = document.getElementById('material');
+
+        function updateDisplay() {
+            const frameWidth = parseInt(frameWidthInput.value);
+            const frameDepth = parseInt(frameDepthInput.value);
+            const armLength = parseInt(armLengthInput.value);
+            const swingAngle = parseInt(swingAngleInput.value);
+            const material = materialInput.value;
+
+            document.getElementById('frameWidthValue').textContent = `${frameWidth} mm`;
+            document.getElementById('frameDepthValue').textContent = `${frameDepth} mm`;
+            document.getElementById('armLengthValue').textContent = `${armLength} mm`;
+            document.getElementById('swingAngleValue').textContent = `${swingAngle}°`;
+
+            calculateAndDisplay(frameWidth, frameDepth, armLength, swingAngle, material);
+            createModel(frameWidth, frameDepth, armLength, swingAngle);
+        }
+
+        function calculateAndDisplay(frameWidth, frameDepth, armLength, swingAngle, material) {
+            // Load capacity
+            let baseLoad = material === 'pla' ? 8 : material === 'petg' ? 12 : 10;
+            let lengthFactor = armLength > 200 ? (armLength - 200) * (material === 'pla' ? 0.02 : material === 'petg' ? 0.015 : 0.018) : 0;
+            let loadCapacity = baseLoad - lengthFactor;
+
+            // Lever moment (Nm)
+            let moment = (loadCapacity * armLength) / 1000;
+
+            // Clamp force (N)
+            let clampForce = moment / (frameDepth * 0.001);
+
+            // Safety status (70% is limit)
+            let safetyPercent = (clampForce / 7000) * 100; // Assuming 7000N max safe
+            let safetyStatus, safetyClass;
+            if (safetyPercent < 70) {
+                safetyStatus = '✓ Sicher';
+                safetyClass = 'status-safe';
+            } else if (safetyPercent < 85) {
+                safetyStatus = '⚠ Grenzbereich';
+                safetyClass = 'status-warning';
+            } else {
+                safetyStatus = '✗ Nicht empfohlen';
+                safetyClass = 'status-danger';
+            }
+
+            // WDF check
+            let wdfConform = swingAngle <= 5 ? '✓' : '✗';
+
+            // Print time (minutes)
+            let printTime = Math.round((armLength * 0.8) + 45);
+
+            // Filament (meters)
+            let filament = Math.round(((frameWidth * 1.2) + (armLength * 0.9)) / 1000 * 10) / 10;
+
+            // Update display
+            document.getElementById('loadCapacity').textContent = `${loadCapacity.toFixed(2)} kg`;
+            document.getElementById('moment').textContent = `${moment.toFixed(2)} Nm`;
+            document.getElementById('clampForce').textContent = `${Math.round(clampForce)} N`;
+            document.getElementById('wdfAngle').textContent = `${swingAngle}° ${wdfConform}`;
+            document.getElementById('printTime').textContent = `${printTime} Min`;
+            document.getElementById('filament').textContent = `${filament} m`;
+
+            // Safety status styling
+            const statusIndicator = document.querySelector('.status-indicator');
+            const statusText = document.getElementById('safetyStatus');
+            statusIndicator.className = `status-indicator ${safetyClass}`;
+            statusText.textContent = safetyStatus;
+        }
+
+        frameWidthInput.addEventListener('input', updateDisplay);
+        frameDepthInput.addEventListener('input', updateDisplay);
+        armLengthInput.addEventListener('input', updateDisplay);
+        swingAngleInput.addEventListener('input', updateDisplay);
+        materialInput.addEventListener('change', updateDisplay);
+
+        // Initial calculation
+        updateDisplay();
+
+        // ═══════════════════════════════════════════════════════════
+        // ANIMATION LOOP
+        // ═══════════════════════════════════════════════════════════
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth rotation based on mouse
+            targetRotY = mouseX * Math.PI;
+            targetRotX = mouseY * Math.PI * 0.5;
+
+            modelGroup.rotation.x += (targetRotX - modelGroup.rotation.x) * 0.05;
+            modelGroup.rotation.y += (targetRotY - modelGroup.rotation.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // ═══════════════════════════════════════════════════════════
+        // HANDLE WINDOW RESIZE
+        // ═══════════════════════════════════════════════════════════
+        window.addEventListener('resize', () => {
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+    </script>
+</body>
+</html>

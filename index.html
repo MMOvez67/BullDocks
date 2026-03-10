@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulldocks - WDF Dartscheibe Türrahmen Halterung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #ff6b35;
+            --black: #1a1a1a;
+            --cream: #f5f1e8;
+            --dark-gray: #2a2a2a;
+            --light-gray: #e8e8e8;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--black);
+            background: var(--cream);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: var(--black);
+            color: var(--cream);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+            color: var(--cream);
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 96px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 0.95;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 span {
+            color: var(--orange);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #ccc;
+        }
+
+        .cta-button {
+            background: var(--orange);
+            color: var(--black);
+            padding: 16px 40px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .cta-button:hover {
+            background: #ff8455;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,107,53,0.3);
+        }
+
+        /* USP Section */
+        .usps {
+            max-width: 1200px;
+            margin: -60px auto 100px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .usp-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid var(--orange);
+        }
+
+        .usp-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .usp-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--black);
+        }
+
+        .usp-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Product Section */
+        .product {
+            background: var(--black);
+            color: var(--cream);
+            padding: 100px 20px;
+        }
+
+        .product-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .product-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .product-img {
+            background: linear-gradient(135deg, #333 0%, #444 100%);
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+            border: 2px dashed #666;
+        }
+
+        .product-info h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .product-info h2 span {
+            color: var(--orange);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #444;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .features li:before {
+            content: '✓';
+            color: var(--orange);
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .price-section {
+            background: #333;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+
+        .price-note {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .shipping-badge {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--black);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: #999;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .product-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .product-info h2 {
+                font-size: 32px;
+            }
+
+            .usps {
+                grid-template-columns: 1fr;
+                margin: -40px auto 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span>🐶</span> BULLDOCKS
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#product">Produkt</a></li>
+                    <li><a href="#specs">Specs</a></li>
+                    <li><a href="#buy">Kaufen</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Dart spielen.<br><span>Ohne einen einzigen Nagel.</span></h1>
+            <p>WDF-regelkonforme Dartscheibe im Türrahmen — 5 Minuten Montage, kein Bohren, deutsches Design.</p>
+            <a href="https://www.etsy.com/shop/bulldocks" class="cta-button">Jetzt kaufen — 29,99€</a>
+        </div>
+    </section>
+
+    <!-- USP Cards -->
+    <section class="usps">
+        <div class="usp-card">
+            <div class="usp-icon">✓</div>
+            <h3>WDF-Regelkonform</h3>
+            <p>Fixe 1,73m Bullseye-Höhe + korrekter Spielwinkel. Einzige am Markt.</p>
+        </div>
+        <div class="usp-card">
+            <div class="usp-icon">🔨</div>
+            <h3>Kein Bohren</h3>
+            <p>Intelligente Klemmadapter. 5 Minuten Installation. Keine Schäden am Rahmen.</p>
+        </div>
+        <div class="usp-card">
+            <div class="usp-icon">⚙️</div>
+            <h3>Anpassbar</h3>
+            <p>3D-gedruckt in Deutschland. Personalisierbar. Made in Germany.</p>
+        </div>
+        <div class="usp-card">
+            <div class="usp-icon">🚀</div>
+            <h3>30 Drucker</h3>
+            <p>Dezentrale Produktion. Schnelle Lieferung. Deutsche Qualität.</p>
+        </div>
+    </section>
+
+    <!-- Product Section -->
+    <section class="product" id="product">
+        <div class="product-content">
+            <div class="product-images">
+                <div class="product-img">
+                    <img src="../../assets/product-1.jpg" alt="Bulldocks Halterung - Frontansicht" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="product-img">
+                    <img src="../../assets/product-2.jpg" alt="Bulldocks Halterung - Detailansicht" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="product-img">
+                    <img src="../../assets/product-3.jpg" alt="Bulldocks Halterung - Installation" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="product-img">
+                    <img src="../../assets/product-4.jpg" alt="Bulldocks Halterung - Einsatz" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+            </div>
+            <div class="product-info">
+                <h2>Tournament<span>-Ready</span></h2>
+                
+                <div class="shipping-badge">🚚 Kostenloser Versand in DE</div>
+
+                <div class="price-section">
+                    <div class="price">29,99€</div>
+                    <div class="price-note">Einmalige Investition für Jahre Dart-Spielspaß</div>
+                </div>
+
+                <ul class="features" id="specs">
+                    <li>WDF-Regelkonforme Höhe (1,73m Bullseye)</li>
+                    <li>Korrekter 45° Spielwinkel</li>
+                    <li>Ohne Bohren installierbar</li>
+                    <li>3D-gedruckt in Deutschland</li>
+                    <li>Passend für Standard-Türrahmen (75-90mm)</li>
+                    <li>Personalisierbar (Farben, Logo)</li>
+                    <li>Inkl. Video-Anleitung</li>
+                    <li>Kostenloser Support</li>
+                </ul>
+
+                <a href="https://www.etsy.com/shop/bulldocks" class="cta-button" id="buy">Jetzt kaufen — 29,99€</a>
+                <a href="configurator.html" style="display:inline-block;margin-top:20px;padding:12px 28px;border:2px solid #ff6b35;color:#ff6b35;text-decoration:none;border-radius:2px;font-family:'Bebas Neue';font-weight:700;letter-spacing:0.05em;transition:all 0.3s;" onmouseover="this.style.background='#ff6b35';this.style.color='#000'" onmouseout="this.style.background='transparent';this.style.color='#ff6b35'">🔧 Konfigurieren</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p style="margin-bottom: 20px;">🐶 BULLDOCKS — Dart spielen. Ohne einen einzigen Nagel.</p>
+        <ul class="footer-links">
+            <li><a href="https://bulldocks.net">bulldocks.net</a></li>
+            <li><a href="https://bulldocks.net/impressum">Impressum</a></li>
+            <li><a href="https://bulldocks.net/datenschutz">Datenschutz</a></li>
+        </ul>
+        <p>&copy; 2026 Bulldocks UG. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
