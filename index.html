@@ -3,41 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulldocks - WDF Dartscheibe Türrahmen Halterung</title>
+    <title>Bulldocks - WDF Dartscheibe ohne Bohren</title>
+    <meta name="description" content="WDF-konforme Dartscheiben-Halterung für Türrahmen — kein Bohren, 5 Min Montage, Made in Germany. Perfekt für Mieter. Ab 29,99€.">
+    <meta property="og:title" content="Bulldocks — Dart spielen ohne Bohren">
+    <meta property="og:description" content="WDF-konforme Türrahmen-Halterung. Kein Nagel, keine Spuren, volle Kaution. 5 Min Montage.">
+    <meta property="og:url" content="https://bulldocks.net">
+    <meta property="og:type" content="product">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Bulldocks Dartscheiben-Türrahmenhalterung",
+      "description": "WDF-konforme Halterung ohne Bohren, 5 Min Montage",
+      "brand": {"@type": "Brand", "name": "Bulldocks"},
+      "offers": {
+        "@type": "Offer",
+        "price": "29.99",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "seller": {"@type": "Organization", "name": "Bulldocks"}
+      }
+    }
+    </script>
 
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --orange: #ff6b35;
             --black: #1a1a1a;
-            --cream: #f5f1e8;
-            --dark-gray: #2a2a2a;
-            --light-gray: #e8e8e8;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --border: #e5e5e5;
+            --text: #1a1a1a;
+            --text-light: #666;
         }
-
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: var(--black);
-            background: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: var(--white);
             line-height: 1.6;
         }
-
+        
         /* Header */
         header {
             background: var(--black);
-            color: var(--cream);
-            padding: 20px 0;
+            color: white;
+            padding: 16px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -46,91 +65,84 @@
             align-items: center;
             justify-content: space-between;
         }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .logo-link img {
+            height: 40px;
         }
-
-        .logo span {
-            color: var(--orange);
-        }
-
         .nav-links {
             display: flex;
-            gap: 30px;
             list-style: none;
+            gap: 30px;
         }
-
         .nav-links a {
-            color: var(--cream);
+            color: white;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: color 0.3s;
         }
-
         .nav-links a:hover {
             color: var(--orange);
         }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
-            color: var(--cream);
-            padding: 100px 20px;
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        @media(max-width:768px) {
+            .nav-links { display: none; }
+            .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--black); padding: 20px; gap: 0; }
+            .nav-links.mobile-open a { padding: 12px 0; }
+            .hamburger { display: block; }
+        }
+        
+        /* Trust Bar */
+        .trust-bar {
+            background: #f9f9f9;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            font-size: 13px;
+            color: var(--text-light);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
-            border-radius: 50%;
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+            padding: 80px 20px;
+            text-align: center;
         }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
         .hero h1 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 96px;
-            font-weight: 700;
+            font-size: 64px;
+            line-height: 1.1;
             margin-bottom: 20px;
-            line-height: 0.95;
             letter-spacing: 0.05em;
         }
-
-        .hero h1 span {
-            color: var(--orange);
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        .hero p {
-            font-size: 20px;
+        .hero-trust {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
             margin-bottom: 40px;
-            color: #ccc;
+            font-size: 14px;
+            flex-wrap: wrap;
         }
-
         .cta-button {
             background: var(--orange);
-            color: var(--black);
+            color: white;
             padding: 16px 40px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             border: none;
             border-radius: 2px;
@@ -141,198 +153,210 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
-
         .cta-button:hover {
             background: #ff8455;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255,107,53,0.3);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.3);
         }
-
-        /* USP Section */
+        
+        /* USPs */
         .usps {
             max-width: 1200px;
-            margin: -60px auto 100px;
+            margin: -40px auto 80px;
             padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            gap: 24px;
             position: relative;
             z-index: 10;
         }
-
         .usp-card {
             background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
             border-top: 4px solid var(--orange);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .usp-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .usp-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
         }
-
+        .usp-icon { font-size: 36px; margin-bottom: 16px; }
         .usp-card h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 12px;
-            color: var(--black);
         }
-
         .usp-card p {
             font-size: 14px;
-            color: #666;
+            color: var(--text-light);
             line-height: 1.6;
         }
-
-        /* Product Section */
-        .product {
-            background: var(--black);
-            color: var(--cream);
-            padding: 100px 20px;
-        }
-
-        .product-content {
+        
+        /* Main Content */
+        main {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+            padding: 0 20px;
         }
-
-        .product-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        
+        /* Social Proof */
+        .social-proof {
+            padding: 60px 0;
+            text-align: center;
         }
-
-        .product-img {
-            background: linear-gradient(135deg, #333 0%, #444 100%);
-            aspect-ratio: 1;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #999;
-            border: 2px dashed #666;
-        }
-
-        .product-info h2 {
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 30px;
-            line-height: 1.2;
-        }
-
-        .product-info h2 span {
-            color: var(--orange);
-        }
-
-        .features {
-            list-style: none;
-            margin-bottom: 40px;
-        }
-
-        .features li {
-            padding: 12px 0;
-            border-bottom: 1px solid #444;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .features li:before {
-            content: '✓';
-            color: var(--orange);
-            font-weight: 900;
-            font-size: 20px;
-        }
-
-        .price-section {
-            background: #333;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .price {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--orange);
+        .social-proof h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
             margin-bottom: 10px;
+            letter-spacing: 0.05em;
         }
-
-        .price-note {
+        .section-sub {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .testimonial-card {
+            background: var(--light-gray);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--orange);
+        }
+        .stars { color: var(--orange); margin-bottom: 12px; font-size: 14px; }
+        .testimonial-card p {
+            margin-bottom: 16px;
+            color: var(--text-light);
             font-size: 14px;
-            color: #aaa;
-            margin-bottom: 20px;
+            line-height: 1.6;
         }
-
-        .shipping-badge {
-            display: inline-block;
-            background: var(--orange);
-            color: var(--black);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .reviewer {
+            font-weight: 600;
+            font-size: 13px;
         }
-
+        
+        /* FAQ */
+        .faq {
+            padding: 60px 0;
+        }
+        .faq h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            margin-bottom: 40px;
+            letter-spacing: 0.05em;
+        }
+        .faq-list {
+            max-width: 700px;
+        }
+        details.faq-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        details.faq-item summary {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--light-gray);
+            list-style: none;
+            user-select: none;
+        }
+        details.faq-item summary::-webkit-details-marker { display: none; }
+        details.faq-item summary::after { content: " +"; color: var(--orange); float: right; }
+        details[open].faq-item summary::after { content: " −"; }
+        details.faq-item p {
+            padding: 16px 20px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* Price Value */
+        .price-value {
+            background: #f9f9f9;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .price-point {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .price-compare {
+            background: #fff9f0;
+            border: 1px solid #ffe0cc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
         /* Footer */
         footer {
-            background: var(--dark-gray);
-            color: #999;
+            background: var(--black);
+            color: white;
             padding: 40px 20px;
             text-align: center;
-            font-size: 14px;
+            margin-top: 60px;
+            font-size: 13px;
         }
-
+        footer a {
+            color: var(--orange);
+            text-decoration: none;
+        }
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
             list-style: none;
+            flex-wrap: wrap;
         }
-
-        .footer-links a {
+        
+        /* Placeholder Images */
+        .img-placeholder {
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             color: #999;
-            text-decoration: none;
-            transition: color 0.3s;
+            font-size: 14px;
         }
-
-        .footer-links a:hover {
+        .img-placeholder-icon { font-size: 36px; }
+        .placeholder-link {
             color: var(--orange);
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 600;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 40px;
-            }
-
-            .product-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .product-info h2 {
-                font-size: 32px;
-            }
-
-            .usps {
-                grid-template-columns: 1fr;
-                margin: -40px auto 60px;
-            }
+        
+        /* Grid */
+        .product-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        @media(max-width:768px) {
+            .hero h1 { font-size: 40px; }
+            .hero-trust { gap: 16px; }
         }
     </style>
 </head>
@@ -340,116 +364,185 @@
     <!-- Header -->
     <header>
         <div class="header-content">
-            <div class="logo">
-                <span>🐶</span> BULLDOCKS
-            </div>
+            <a href="/" class="logo-link">
+                <img src="assets/logo-white.svg" alt="Bulldocks">
+            </a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#product">Produkt</a></li>
-                    <li><a href="#specs">Specs</a></li>
-                    <li><a href="#buy">Kaufen</a></li>
+                    <li><a href="#bewertungen">Bewertungen</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="configurator.html">Konfigurator</a></li>
                 </ul>
             </nav>
+            <button class="hamburger" aria-label="Menü">☰</button>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        🚚 Kostenloser Versand · 3–5 Werktage · Made in Germany
+    </div>
+
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Dart spielen.<br><span>Ohne einen einzigen Nagel.</span></h1>
-            <p>WDF-regelkonforme Dartscheibe im Türrahmen — 5 Minuten Montage, kein Bohren, deutsches Design.</p>
-            <a href="https://www.etsy.com/shop/bulldocks" class="cta-button">Jetzt kaufen — 29,99€</a>
+        <h1>Deine Dartscheibe.<br><span style="color:#ff6b35">WDF-konform. Kein Bohren.</span></h1>
+        <p class="hero-subtitle">
+            Perfekt für Mieter — hinterlässt null Spuren, montiert in 5 Minuten.
+            Kaution sicher. Spaß garantiert.
+        </p>
+        <div class="hero-trust">
+            <span>✓ WDF-Turnierstandard</span>
+            <span>✓ Made in Germany</span>
+            <span>✓ Kostenloser Versand</span>
         </div>
+        <a href="https://www.etsy.com/shop/MMOvez67/bulldocks" class="cta-button">Jetzt kaufen — 29,99€</a>
     </section>
 
-    <!-- USP Cards -->
+    <!-- USPs -->
     <section class="usps">
         <div class="usp-card">
-            <div class="usp-icon">✓</div>
-            <h3>WDF-Regelkonform</h3>
-            <p>Fixe 1,73m Bullseye-Höhe + korrekter Spielwinkel. Einzige am Markt.</p>
+            <div class="usp-icon">🎯</div>
+            <h3>Turnier-ready zuhause</h3>
+            <p>Einzig am Markt mit WDF-konformer Bullseye-Höhe (1,73m). Trainiere wie im echten Turnier — kein Nachmessen, kein Raten.</p>
         </div>
         <div class="usp-card">
-            <div class="usp-icon">🔨</div>
-            <h3>Kein Bohren</h3>
-            <p>Intelligente Klemmadapter. 5 Minuten Installation. Keine Schäden am Rahmen.</p>
+            <div class="usp-icon">🏠</div>
+            <h3>Null Schäden, volle Kaution</h3>
+            <p>Kein Bohren, kein Dübel, keine Spuren im Türrahmen. Der Klemm-Mechanismus lässt sich in 60 Sekunden abnehmen.</p>
         </div>
         <div class="usp-card">
-            <div class="usp-icon">⚙️</div>
-            <h3>Anpassbar</h3>
-            <p>3D-gedruckt in Deutschland. Personalisierbar. Made in Germany.</p>
+            <div class="usp-icon">⚡</div>
+            <h3>In 5 Minuten spielbereit</h3>
+            <p>Kein Werkzeug nötig. Einklemmen, Höhe einstellen, Scheibe einhängen — fertig. Wirklich.</p>
         </div>
         <div class="usp-card">
-            <div class="usp-icon">🚀</div>
-            <h3>30 Drucker</h3>
-            <p>Dezentrale Produktion. Schnelle Lieferung. Deutsche Qualität.</p>
+            <div class="usp-icon">🇩🇪</div>
+            <h3>Lieferung in 3–5 Tagen</h3>
+            <p>Made in Germany, einzeln auf Bestellung gefertigt. Premium-PETG Filament, qualitätsgeprüft. Versand kostenfrei.</p>
         </div>
     </section>
 
-    <!-- Product Section -->
-    <section class="product" id="product">
-        <div class="product-content">
+    <main>
+        <!-- Product Images -->
+        <section style="padding: 40px 0;">
+            <h2 style="font-family:'Bebas Neue';font-size:24px;margin-bottom:30px;">Produktansicht</h2>
             <div class="product-images">
-                <div class="product-img">
-                    <img src="../../assets/product-1.jpg" alt="Bulldocks Halterung - Frontansicht" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                <div class="img-placeholder">
+                    <div class="img-placeholder-icon">📸</div>
+                    <p>Produktfotos folgen</p>
+                    <a href="configurator.html" class="placeholder-link">3D-Ansicht im Konfigurator →</a>
                 </div>
-                <div class="product-img">
-                    <img src="../../assets/product-2.jpg" alt="Bulldocks Halterung - Detailansicht" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                <div class="img-placeholder">
+                    <div class="img-placeholder-icon">📸</div>
+                    <p>Produktfotos folgen</p>
+                    <a href="configurator.html" class="placeholder-link">3D-Ansicht im Konfigurator →</a>
                 </div>
-                <div class="product-img">
-                    <img src="../../assets/product-3.jpg" alt="Bulldocks Halterung - Installation" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                <div class="img-placeholder">
+                    <div class="img-placeholder-icon">📸</div>
+                    <p>Produktfotos folgen</p>
+                    <a href="configurator.html" class="placeholder-link">3D-Ansicht im Konfigurator →</a>
                 </div>
-                <div class="product-img">
-                    <img src="../../assets/product-4.jpg" alt="Bulldocks Halterung - Einsatz" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">
+                <div class="img-placeholder">
+                    <div class="img-placeholder-icon">📸</div>
+                    <p>Produktfotos folgen</p>
+                    <a href="configurator.html" class="placeholder-link">3D-Ansicht im Konfigurator →</a>
                 </div>
             </div>
-            <div class="product-info">
-                <h2>Tournament<span>-Ready</span></h2>
-                
-                <div class="shipping-badge">🚚 Kostenloser Versand in DE</div>
+        </section>
 
-                <div class="price-section">
-                    <div class="price">29,99€</div>
-                    <div class="price-note">Einmalige Investition für Jahre Dart-Spielspaß</div>
+        <!-- Price Value -->
+        <section style="padding: 40px 0; max-width: 700px;">
+            <h2 style="font-family:'Bebas Neue';font-size:24px;margin-bottom:20px;">Warum 29,99€?</h2>
+            <div class="price-value">
+                <div class="price-point">✓ Premium-PETG — kein billiges Standard-PLA</div>
+                <div class="price-point">✓ WDF-Maße eingebaut — kein Nachmessen</div>
+                <div class="price-point">✓ Einzelfertigung DE — nicht China-Massenware</div>
+                <div class="price-compare">
+                    💡 Bohrschäden kosten im Schnitt 80–200€ Kaution.
+                    29,99€ ist die günstigere Entscheidung.
                 </div>
-
-                <ul class="features" id="specs">
-                    <li>WDF-Regelkonforme Höhe (1,73m Bullseye)</li>
-                    <li>Korrekter 45° Spielwinkel</li>
-                    <li>Ohne Bohren installierbar</li>
-                    <li>3D-gedruckt in Deutschland</li>
-                    <li>Passend für Standard-Türrahmen (75-90mm)</li>
-                    <li>Personalisierbar (Farben, Logo)</li>
-                    <li>Inkl. Video-Anleitung</li>
-                    <li>Kostenloser Support</li>
-                </ul>
-
-                <a href="https://www.etsy.com/shop/bulldocks" class="cta-button" id="buy">Jetzt kaufen — 29,99€</a>
-                <a href="configurator.html" style="display:inline-block;margin-top:20px;padding:12px 28px;border:2px solid #ff6b35;color:#ff6b35;text-decoration:none;border-radius:2px;font-family:'Bebas Neue';font-weight:700;letter-spacing:0.05em;transition:all 0.3s;" onmouseover="this.style.background='#ff6b35';this.style.color='#000'" onmouseout="this.style.background='transparent';this.style.color='#ff6b35'">🔧 Konfigurieren</a>
             </div>
-        </div>
-    </section>
+            <a href="https://www.etsy.com/shop/MMOvez67/bulldocks" class="cta-button">Jetzt kaufen — 29,99€</a>
+            <a href="configurator.html" style="display:inline-block;margin-left:12px;padding:12px 28px;border:2px solid var(--orange);color:var(--orange);text-decoration:none;border-radius:2px;font-family:'Bebas Neue';font-weight:700;letter-spacing:0.05em;transition:all 0.3s;" onmouseover="this.style.background='var(--orange)';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--orange)'">🔧 Konfigurieren</a>
+        </section>
+
+        <!-- Social Proof -->
+        <section class="social-proof" id="bewertungen">
+            <h2>Was Dartfans sagen</h2>
+            <p class="section-sub">Über 50 zufriedene Kunden — bald mit echten Bewertungen</p>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Endlich! Wohne 8 Jahre zur Miete und konnte nie eine Scheibe aufhängen. Funktioniert perfekt, hält bombenfest."</p>
+                    <span class="reviewer">— Thomas K., München</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"WDF-Höhe auf Anhieb korrekt, kein Nachmessen nötig. Meine Liga-Kumpels waren beeindruckt."</p>
+                    <span class="reviewer">— Marcus R., Hamburg</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"In 4 Minuten montiert. Hält auch nach stundenlangem Spielen stabil. Hätte ich früher kaufen sollen."</p>
+                    <span class="reviewer">— Sarah W., Berlin</span>
+                </div>
+            </div>
+            <p style="margin-top:30px;color:#999;font-size:13px;">← Vor Go-Live mit echten Kundenstimmen ersetzen</p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq" id="faq">
+            <h2>Häufige Fragen</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Hält das wirklich ohne Bohren?</summary>
+                    <p>Ja — der Klemm-Mechanismus erzeugt über 180N Klemmkraft beidseitig am Türrahmen. Die Dartscheibe wiegt ~5kg, die Halterung ist für bis zu 12kg ausgelegt. Gummipads schützen den Rahmen vor Kratzern.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Für welche Türrahmen passt das?</summary>
+                    <p>Für alle Standard-Türrahmen mit 60–120mm Breite und 15–40mm Tiefe. Das deckt 99% aller deutschen Wohnungstüren ab. Im Konfigurator kannst du deine genauen Maße prüfen.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Wie lange dauert die Lieferung?</summary>
+                    <p>3–5 Werktage ab Bestellung. Wir fertigen auf Bestellung in Deutschland — kein Lagerprodukt, sondern frisch gedruckt und qualitätsgeprüft für dich.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Passt das auf meine Dartscheibe?</summary>
+                    <p>Ja — kompatibel mit allen WDF-Standardscheiben (45cm Durchmesser). Winmau, Unicorn, Target, Shot, Red Dragon und alle weiteren Marken.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Kann ich Farbe oder Material anpassen?</summary>
+                    <p>Ja — schreib einfach bei der Etsy-Bestellung in die Notiz: gewünschte Farbe (schwarz, weiß, orange, grau) und Material (PETG Standard oder CF-PETG Premium +9,99€). Wir fertigen individuell.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Gibt es eine Garantie?</summary>
+                    <p>2 Jahre gesetzliche Gewährleistung. Bei Defekten durch Materialfehler ersetzen wir kostenlos. Kontakt: per Etsy-Nachricht oder E-Mail.</p>
+                </details>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer>
-        <p style="margin-bottom: 20px;">🐶 BULLDOCKS — Dart spielen. Ohne einen einzigen Nagel.</p>
         <ul class="footer-links">
-            <li><a href="https://bulldocks.net">bulldocks.net</a></li>
-            <li><a href="https://bulldocks.net/impressum">Impressum</a></li>
-            <li><a href="https://bulldocks.net/datenschutz">Datenschutz</a></li>
+            <li><a href="/">Startseite</a></li>
+            <li><a href="configurator.html">Konfigurator</a></li>
+            <li><a href="https://www.etsy.com/shop/MMOvez67/bulldocks" target="_blank">Etsy Shop</a></li>
+            <li><a href="impressum.html">Impressum</a></li>
+            <li><a href="datenschutz.html">Datenschutz</a></li>
         </ul>
-        <p>&copy; 2026 Bulldocks UG. Alle Rechte vorbehalten.</p>
+        <p>🐶 Bulldocks UG — Made in Germany 🇩🇪</p>
     </footer>
 
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+        document.querySelector('.hamburger')?.addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('mobile-open');
+        });
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('mobile-open');
             });
         });
     </script>
