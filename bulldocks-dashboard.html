@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐶 Bulldocks Command Center</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3e;
+    --accent: #ff6b35;
+    --accent2: #ffbe0b;
+    --blue: #3a86ff;
+    --green: #06d6a0;
+    --red: #ef476f;
+    --muted: #5a5a7a;
+    --text: #e8e8f0;
+    --text2: #9090b0;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 10% 20%, rgba(255,107,53,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 90% 80%, rgba(58,134,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Grid overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,107,53,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,53,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; }
+
+  /* Header */
+  header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 0 20px rgba(255,107,53,0.4);
+  }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .logo-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .gateway-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  .dot.offline { background: var(--red); box-shadow: 0 0 8px var(--red); animation: none; }
+  .dot.warn { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+  .btn.primary:hover { box-shadow: 0 0 16px rgba(255,107,53,0.5); }
+
+  /* Main layout */
+  main {
+    padding: 24px 28px;
+    display: grid;
+    gap: 20px;
+  }
+
+  /* Phase Banner */
+  .phase-banner {
+    background: linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,190,11,0.08));
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 12px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .phase-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .phase-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-progress {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .phase-step {
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  .phase-step.active { background: var(--accent); box-shadow: 0 0 8px rgba(255,107,53,0.5); }
+  .phase-step.done { background: var(--green); }
+
+  /* Grid sections */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .col-span-2 { grid-column: span 2; }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(255,107,53,0.3); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .card-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-green { background: rgba(6,214,160,0.15); color: var(--green); border: 1px solid rgba(6,214,160,0.3); }
+  .badge-orange { background: rgba(255,107,53,0.15); color: var(--accent); border: 1px solid rgba(255,107,53,0.3); }
+  .badge-yellow { background: rgba(255,190,11,0.15); color: var(--accent2); border: 1px solid rgba(255,190,11,0.3); }
+  .badge-red { background: rgba(239,71,111,0.15); color: var(--red); border: 1px solid rgba(239,71,111,0.3); }
+  .badge-blue { background: rgba(58,134,255,0.15); color: var(--blue); border: 1px solid rgba(58,134,255,0.3); }
+
+  /* Agent Cards */
+  .agent-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .agent-card.main::before { background: linear-gradient(90deg, var(--accent), transparent); }
+  .agent-card.coder::before { background: linear-gradient(90deg, var(--blue), transparent); }
+  .agent-card.router::before { background: linear-gradient(90deg, var(--green), transparent); }
+
+  .agent-name {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .agent-model {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .agent-task {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 12px;
+    line-height: 1.5;
+    min-height: 36px;
+  }
+
+  .context-bar {
+    margin-top: 12px;
+  }
+
+  .context-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .context-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .context-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+  .fill-low { background: var(--green); }
+  .fill-mid { background: var(--accent2); }
+  .fill-high { background: var(--red); }
+
+  .agent-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat {
+    flex: 1;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .stat-lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Task list */
+  .task-item {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .task-item:hover { border-color: rgba(255,107,53,0.4); background: rgba(255,107,53,0.03); }
+  .task-item.done { opacity: 0.5; }
+  .task-item.done:hover { opacity: 0.7; }
+
+  .task-status-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .icon-open { background: rgba(255,107,53,0.2); border: 1px solid rgba(255,107,53,0.4); color: var(--accent); }
+  .icon-progress { background: rgba(255,190,11,0.2); border: 1px solid rgba(255,190,11,0.4); color: var(--accent2); }
+  .icon-done { background: rgba(6,214,160,0.2); border: 1px solid rgba(6,214,160,0.4); color: var(--green); }
+  .icon-wait { background: rgba(90,90,122,0.2); border: 1px solid rgba(90,90,122,0.4); color: var(--muted); }
+
+  .task-content { flex: 1; min-width: 0; }
+
+  .task-id {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  .task-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .task-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+    margin-top: 3px;
+  }
+
+  .task-agent-tag {
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+  }
+  .tag-main { background: rgba(255,107,53,0.2); color: var(--accent); }
+  .tag-coder { background: rgba(58,134,255,0.2); color: var(--blue); }
+  .tag-router { background: rgba(6,214,160,0.2); color: var(--green); }
+
+  /* Files section */
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--surface2);
+    margin-bottom: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .file-item:hover { border-color: var(--border); }
+  .file-icon { color: var(--muted); font-size: 13px; }
+  .file-name { flex: 1; color: var(--text2); }
+  .file-name span { color: var(--text); font-weight: 700; }
+  .file-size { color: var(--muted); font-size: 10px; }
+
+  /* New Task Form */
+  .task-form {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: span 2; }
+
+  label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  input, select, textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 70px; }
+  select option { background: var(--surface2); }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  /* Telegram prompt */
+  .telegram-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+  }
+
+  .telegram-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--blue);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .telegram-prompt {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: color 0.15s;
+  }
+  .copy-btn:hover { color: var(--accent); }
+
+  /* Stats row */
+  .stats-mini {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stat-mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-mini-val {
+    font-size: 28px;
+    font-weight: 800;
+    font-family: var(--mono);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-mini-lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  /* Scrollable areas */
+  .scroll-area {
+    max-height: 320px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Section title */
+  .section-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  /* Tooltip-like path display */
+  .output-path {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🐶</div>
+    <div>
+      <div class="logo-text">Bulldocks</div>
+      <div class="logo-sub">Command Center</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="gateway-status" id="gatewayStatus">
+      <div class="dot" id="gatewayDot"></div>
+      <span id="gatewayLabel">Connecting...</span>
+    </div>
+    <button class="btn" onclick="refreshAll()">↺ Refresh</button>
+    <button class="btn primary" onclick="showNewTaskForm()">+ New Task</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Phase Banner -->
+  <div class="phase-banner">
+    <div>
+      <div class="phase-label">Current Phase</div>
+      <div class="phase-title">Phase 0 — Produkt verkaufsfertig machen</div>
+    </div>
+    <div style="text-align:right">
+      <div class="phase-label" style="margin-bottom:8px">Progress</div>
+      <div class="phase-progress">
+        <div class="phase-step active" title="Phase 0: Produkt"></div>
+        <div class="phase-step" title="Phase 1: Etsy"></div>
+        <div class="phase-step" title="Phase 2: Verkäufe"></div>
+        <div class="phase-step" title="Phase 3: TikTok"></div>
+        <div class="phase-step" title="Phase 4: Shopify"></div>
+        <div class="phase-step" title="Phase 5: Scale"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats mini -->
+  <div class="stats-mini">
+    <div class="stat-mini-card">
+      <div class="stat-mini-val" id="statOpen" style="color:var(--accent)">3</div>
+      <div class="stat-mini-lbl">Open Tasks</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val" id="statDone" style="color:var(--green)">0</div>
+      <div class="stat-mini-lbl">Completed</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val" id="statAgents" style="color:var(--blue)">3</div>
+      <div class="stat-mini-lbl">Agents</div>
+    </div>
+    <div class="stat-mini-card">
+      <div class="stat-mini-val" id="statCtx" style="color:var(--accent2)">22%</div>
+      <div class="stat-mini-lbl">Ctx Usage</div>
+    </div>
+  </div>
+
+  <!-- Agents -->
+  <div>
+    <div class="section-title">Agents</div>
+    <div class="grid-3" id="agentsGrid">
+
+      <div class="agent-card main">
+        <div class="card-header">
+          <div>
+            <div class="agent-name" style="color:var(--accent)">Main</div>
+            <div class="agent-model">qwen3:8b · 66k ctx</div>
+          </div>
+          <span class="card-badge badge-green" id="mainStatus">ACTIVE</span>
+        </div>
+        <div class="agent-task" id="mainTask">Bereit · Wartet auf Aufgabe via Telegram</div>
+        <div class="context-bar">
+          <div class="context-label">
+            <span>Context</span>
+            <span id="mainCtx">14k / 66k</span>
+          </div>
+          <div class="context-track">
+            <div class="context-fill fill-low" id="mainCtxBar" style="width:22%"></div>
+          </div>
+        </div>
+        <div class="agent-stats">
+          <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Done</div></div>
+          <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Queue</div></div>
+          <div class="stat"><div class="stat-val">47h</div><div class="stat-lbl">Age</div></div>
+        </div>
+      </div>
+
+      <div class="agent-card coder">
+        <div class="card-header">
+          <div>
+            <div class="agent-name" style="color:var(--blue)">Coder</div>
+            <div class="agent-model">qwen2.5-coder:7b · 32k ctx</div>
+          </div>
+          <span class="card-badge badge-yellow" id="coderStatus">STANDBY</span>
+        </div>
+        <div class="agent-task" id="coderTask">Wartet auf TASK-001 Abschluss bevor TASK-002 startet</div>
+        <div class="context-bar">
+          <div class="context-label">
+            <span>Context</span>
+            <span id="coderCtx">0k / 32k</span>
+          </div>
+          <div class="context-track">
+            <div class="context-fill fill-low" id="coderCtxBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="agent-stats">
+          <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Done</div></div>
+          <div class="stat"><div class="stat-val">1</div><div class="stat-lbl">Queue</div></div>
+          <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Age</div></div>
+        </div>
+      </div>
+
+      <div class="agent-card router">
+        <div class="card-header">
+          <div>
+            <div class="agent-name" style="color:var(--green)">Router</div>
+            <div class="agent-model">qwen3:4b · 8k ctx</div>
+          </div>
+          <span class="card-badge badge-yellow" id="routerStatus">STANDBY</span>
+        </div>
+        <div class="agent-task" id="routerTask">Reports & Zusammenfassungen · Günstigste Option für simple Tasks</div>
+        <div class="context-bar">
+          <div class="context-label">
+            <span>Context</span>
+            <span id="routerCtx">0k / 8k</span>
+          </div>
+          <div class="context-track">
+            <div class="context-fill fill-low" id="routerCtxBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="agent-stats">
+          <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Done</div></div>
+          <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Queue</div></div>
+          <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Age</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tasks + Files -->
+  <div class="grid-2">
+
+    <!-- Task Queue -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Task Queue</span>
+        <div style="display:flex;gap:6px">
+          <span class="card-badge badge-orange" id="openCount">3 open</span>
+          <span class="card-badge badge-green" id="doneCount">0 done</span>
+        </div>
+      </div>
+      <div class="scroll-area" id="taskList">
+        <!-- Tasks rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Workspace Files -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Workspace Files</span>
+        <span class="card-badge badge-blue">~/.openclaw/workspace/bulldocks/</span>
+      </div>
+      <div class="scroll-area" id="fileList">
+        <!-- Files rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- New Task Form (hidden by default) -->
+  <div id="newTaskSection" style="display:none">
+    <div class="section-title">New Task</div>
+    <div class="task-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Task Name</label>
+          <input type="text" id="newTaskName" placeholder="z.B. Etsy Listing optimieren">
+        </div>
+        <div class="form-group">
+          <label>Agent</label>
+          <select id="newTaskAgent">
+            <option value="main">main (qwen3:8b) — Strategie, Analyse</option>
+            <option value="coder">coder (qwen2.5-coder:7b) — Code, Templates</option>
+            <option value="router">router (qwen3:4b) — Reports, Simple Tasks</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Priorität</label>
+          <select id="newTaskPrio">
+            <option value="high">🔴 Hoch — Heute</option>
+            <option value="mid">🟡 Mittel — Diese Woche</option>
+            <option value="low">🟢 Niedrig — Irgendwann</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Output Pfad</label>
+          <input type="text" id="newTaskOutput" placeholder="~/.openclaw/workspace/bulldocks/...">
+        </div>
+        <div class="form-group full">
+          <label>Aufgabenbeschreibung</label>
+          <textarea id="newTaskDesc" placeholder="Was soll der Agent genau tun? Je präziser, desto besser das Ergebnis."></textarea>
+        </div>
+      </div>
+
+      <div id="generatedPrompt" style="display:none">
+        <div class="telegram-box">
+          <div class="telegram-label">📱 Telegram Prompt (kopieren & an @Carlollama_bot senden)</div>
+          <div class="telegram-prompt" id="promptText"></div>
+          <button class="copy-btn" onclick="copyPrompt()">📋 Kopieren</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn" onclick="hideNewTaskForm()">Abbrechen</button>
+        <button class="btn" onclick="generatePrompt()">⚡ Prompt generieren</button>
+        <button class="btn primary" onclick="addTask()">Task hinzufügen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Channels -->
+  <div>
+    <div class="section-title">Channels</div>
+    <div class="grid-3">
+      <div class="card" style="display:flex;align-items:center;gap:14px;padding:16px 20px">
+        <div style="font-size:24px">📱</div>
+        <div style="flex:1">
+          <div style="font-weight:700;margin-bottom:2px">Telegram</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">@Carlollama_bot</div>
+        </div>
+        <span class="card-badge badge-green">OK</span>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:14px;padding:16px 20px">
+        <div style="font-size:24px">💬</div>
+        <div style="flex:1">
+          <div style="font-weight:700;margin-bottom:2px">Slack</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">#ki-system-integration</div>
+        </div>
+        <span class="card-badge badge-green" id="slackStatus">OK</span>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:14px;padding:16px 20px">
+        <div style="font-size:24px">🌐</div>
+        <div style="flex:1">
+          <div style="font-weight:700;margin-bottom:2px">Gateway</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">127.0.0.1:18789</div>
+        </div>
+        <span class="card-badge" id="gwBadge">—</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<div class="toast" id="toast">✓ Kopiert!</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const API_URL = 'http://localhost:3333';
+const state = {
+  gateway: { status: 'connecting', latency: null },
+  serverOnline: false,
+  tasks: [],
+  files: []
+};
+
+// Fallback tasks wenn Server offline
+const FALLBACK_TASKS = [
+  {
+    id: 'TASK-001',
+    name: 'Etsy Konkurrenzanalyse',
+    agent: 'main',
+    priority: 'high',
+    status: 'open',
+    desc: 'Top 5 Konkurrenten auf Etsy analysieren, Preisspanne, USPs, Schwächen',
+    output: '~/.openclaw/workspace/bulldocks/markets/etsy-konkurrenz.md',
+    depends: null
+  },
+  {
+    id: 'TASK-002',
+    name: 'SEO-optimiertes Etsy Listing',
+    agent: 'coder',
+    priority: 'high',
+    status: 'waiting',
+    desc: 'Titel (140Z), 13 Tags DE+EN, Beschreibung mit Hook + FAQ',
+    output: '~/.openclaw/workspace/bulldocks/content/etsy-listing-v1.md',
+    depends: 'TASK-001'
+  },
+  {
+    id: 'TASK-003',
+    name: 'Kritiker-Review Listing',
+    agent: 'main',
+    priority: 'high',
+    status: 'waiting',
+    desc: 'Listing bewerten wie Etsy-Profi mit 500+ Sales, Score 1-10',
+    output: '~/.openclaw/workspace/bulldocks/reports/listing-review.md',
+    depends: 'TASK-002'
+  },
+  {
+    id: 'TASK-004',
+    name: 'TikTok Content-Strategie',
+    agent: 'main',
+    priority: 'mid',
+    status: 'open',
+    desc: '5 Content-Formate, Posting-Plan, Hook-Vorlagen',
+    output: '~/.openclaw/workspace/bulldocks/social/tiktok-strategie.md',
+    depends: null
+  },
+  {
+    id: 'TASK-005',
+    name: 'Logo Briefing + Midjourney Prompts',
+    agent: 'coder',
+    priority: 'mid',
+    status: 'open',
+    desc: 'Vollständiges Briefing für Bulldoggen-Logo + 5 optimierte Midjourney Prompts',
+    output: '~/.openclaw/workspace/bulldocks/product/logo-briefing.md',
+    depends: null
+  }
+];
+
+// ═══════════════════════════════════════════════
+// API & GATEWAY CONNECTION
+// ═══════════════════════════════════════════════
+let ws = null;
+let reconnectTimer = null;
+let autoRefreshTimer = null;
+
+async function fetchTasks() {
+  try {
+    const res = await fetch(`${API_URL}/api/tasks`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    state.serverOnline = true;
+    state.tasks = data.tasks || [];
+    renderTasks();
+    renderFiles();
+  } catch (e) {
+    console.warn('Server offline, using fallback:', e.message);
+    state.serverOnline = false;
+    state.tasks = FALLBACK_TASKS;
+    renderTasks();
+    showServerOfflineWarning();
+  }
+}
+
+async function fetchFiles() {
+  try {
+    const res = await fetch(`${API_URL}/api/files`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    state.files = (data.files || []).map(f => ({
+      name: f.name,
+      path: f.path,
+      icon: '📄',
+      size: f.size,
+      note: ''
+    }));
+    state.serverOnline = true;
+    renderFiles();
+  } catch (e) {
+    state.serverOnline = false;
+  }
+}
+
+function showServerOfflineWarning() {
+  const label = document.getElementById('gatewayLabel');
+  if (label && !label.textContent.includes('offline')) {
+    label.innerHTML = '⚠️ Server offline (Fallback-Daten)';
+  }
+}
+
+async function markDoneAPI(id) {
+  try {
+    const res = await fetch(`${API_URL}/api/tasks/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'done' })
+    });
+    if (!res.ok) throw new Error('API error');
+    await fetchTasks();
+  } catch (e) {
+    console.error('Error updating task:', e);
+    showToast('⚠️ Änderung konnte nicht gespeichert werden');
+  }
+}
+
+async function addTaskAPI(name, agent, priority, desc, output) {
+  try {
+    const res = await fetch(`${API_URL}/api/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, agent, priority, status: 'open', desc, output })
+    });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    await fetchTasks();
+    return data.task;
+  } catch (e) {
+    console.error('Error adding task:', e);
+    showToast('⚠️ Task konnte nicht hinzugefügt werden');
+    return null;
+  }
+}
+
+// Auto-refresh alle 30 Sekunden
+function startAutoRefresh() {
+  if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(() => {
+    fetchTasks();
+    fetchFiles();
+  }, 30000);
+}
+
+function connectGateway() {
+  try {
+    ws = new WebSocket('ws://127.0.0.1:18789');
+
+    ws.onopen = () => {
+      updateGatewayStatus('online');
+      document.getElementById('gwBadge').className = 'card-badge badge-green';
+      document.getElementById('gwBadge').textContent = 'OK';
+    };
+
+    ws.onclose = () => {
+      updateGatewayStatus('offline');
+      document.getElementById('gwBadge').className = 'card-badge badge-red';
+      document.getElementById('gwBadge').textContent = 'OFFLINE';
+      reconnectTimer = setTimeout(connectGateway, 5000);
+    };
+
+    ws.onerror = () => {
+      updateGatewayStatus('offline');
+    };
+
+    ws.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        handleGatewayMessage(data);
+      } catch {}
+    };
+  } catch(e) {
+    updateGatewayStatus('offline');
+  }
+}
+
+function updateGatewayStatus(status) {
+  const dot = document.getElementById('gatewayDot');
+  const label = document.getElementById('gatewayLabel');
+  state.gateway.status = status;
+  if (status === 'online') {
+    dot.className = 'dot';
+    label.textContent = 'Gateway OK · 127.0.0.1:18789';
+  } else {
+    dot.className = 'dot offline';
+    label.textContent = 'Disconnected';
+  }
+}
+
+function handleGatewayMessage(data) {
+  // Handle incoming gateway events
+  if (data.type === 'agent_update') {
+    // Update agent stats if available
+  }
+}
+
+// ═══════════════════════════════════════════════
+// RENDER TASKS
+// ═══════════════════════════════════════════════
+function renderTasks() {
+  const container = document.getElementById('taskList');
+  const statusMap = {
+    'open': { icon: '●', cls: 'icon-open', label: 'OFFEN' },
+    'progress': { icon: '▶', cls: 'icon-progress', label: 'LÄUFT' },
+    'done': { icon: '✓', cls: 'icon-done', label: 'FERTIG' },
+    'waiting': { icon: '◌', cls: 'icon-wait', label: 'WARTET' }
+  };
+
+  const prioOrder = { high: 0, mid: 1, low: 2 };
+  const sorted = [...state.tasks].sort((a, b) => prioOrder[a.priority] - prioOrder[b.priority]);
+
+  container.innerHTML = sorted.map(t => {
+    const s = statusMap[t.status] || statusMap['open'];
+    const agentCls = `tag-${t.agent}`;
+    const isDone = t.status === 'done';
+    return `
+      <div class="task-item ${isDone ? 'done' : ''}" onclick="selectTask('${t.id}')">
+        <div class="task-status-icon ${s.cls}">${s.icon}</div>
+        <div class="task-content">
+          <div class="task-id">${t.id} ${t.depends ? `· depends: ${t.depends}` : ''}</div>
+          <div class="task-name">${t.name}</div>
+          <div class="task-meta">
+            <span class="task-agent-tag ${agentCls}">${t.agent}</span>
+            <span>${getPrioLabel(t.priority)}</span>
+          </div>
+          <div class="output-path">${t.output}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+          <button class="btn" style="padding:4px 8px;font-size:9px" onclick="event.stopPropagation();markDone('${t.id}')" ${isDone ? 'disabled' : ''}>
+            ${isDone ? '✓' : 'Done'}
+          </button>
+          <button class="btn" style="padding:4px 8px;font-size:9px;color:var(--blue)" onclick="event.stopPropagation();getPrompt('${t.id}')">
+            📱
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  updateStats();
+}
+
+function getPrioLabel(p) {
+  return { high: '🔴 Hoch', mid: '🟡 Mittel', low: '🟢 Niedrig' }[p] || p;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER FILES
+// ═══════════════════════════════════════════════
+function renderFiles() {
+  const container = document.getElementById('fileList');
+  const isPending = (f) => f.size === '—';
+  
+  container.innerHTML = state.files.map(f => `
+    <div class="file-item" style="${isPending(f) ? 'opacity:0.4' : ''}">
+      <span class="file-icon">${f.icon}</span>
+      <span class="file-name"><span>.${f.path}</span>${f.name}</span>
+      <span class="file-size">${isPending(f) ? '<span style="color:var(--muted)">ausstehend</span>' : f.size}</span>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════
+function updateStats() {
+  const open = state.tasks.filter(t => t.status === 'open' || t.status === 'waiting' || t.status === 'progress').length;
+  const done = state.tasks.filter(t => t.status === 'done').length;
+  document.getElementById('statOpen').textContent = open;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('openCount').textContent = `${open} open`;
+  document.getElementById('doneCount').textContent = `${done} done`;
+}
+
+// ═══════════════════════════════════════════════
+// TASK ACTIONS
+// ═══════════════════════════════════════════════
+function markDone(id) {
+  const task = state.tasks.find(t => t.id === id);
+  if (!task) return;
+  markDoneAPI(id);
+  showToast(`✓ ${task.name} wird aktualisiert...`);
+}
+
+function getPrompt(id) {
+  const task = state.tasks.find(t => t.id === id);
+  if (!task) return;
+  const prompt = buildPrompt(task);
+  
+  // Show in a simple alert for now
+  const box = document.createElement('div');
+  box.style.cssText = `
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+    padding:24px;max-width:600px;width:90%;z-index:9999;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  `;
+  box.innerHTML = `
+    <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:0.2em;margin-bottom:12px">
+      📱 TELEGRAM PROMPT — ${task.id}
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;background:rgba(0,0,0,0.3);padding:14px;border-radius:8px;line-height:1.6;white-space:pre-wrap;color:var(--text);max-height:300px;overflow-y:auto">${prompt}</div>
+    <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end">
+      <button class="btn" onclick="this.closest('div[style]').remove()">Schließen</button>
+      <button class="btn primary" onclick="navigator.clipboard.writeText(\`${prompt.replace(/`/g, '\\`')}\`).then(()=>showToast('✓ Kopiert!'));this.closest('div[style]').remove()">📋 Kopieren</button>
+    </div>
+  `;
+  document.body.appendChild(box);
+}
+
+function buildPrompt(task) {
+  return `[${task.agent.toUpperCase()}] ${task.id}: ${task.name}
+
+Aufgabe: ${task.desc}
+
+Output speichern unter: ${task.output}
+
+Wenn fertig: Bestätige mit einer kurzen Zusammenfassung (3-5 Sätze) was du herausgefunden/erstellt hast.`;
+}
+
+// ═══════════════════════════════════════════════
+// NEW TASK FORM
+// ═══════════════════════════════════════════════
+function showNewTaskForm() {
+  document.getElementById('newTaskSection').style.display = 'block';
+  document.getElementById('newTaskSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideNewTaskForm() {
+  document.getElementById('newTaskSection').style.display = 'none';
+  document.getElementById('generatedPrompt').style.display = 'none';
+}
+
+function generatePrompt() {
+  const name = document.getElementById('newTaskName').value;
+  const agent = document.getElementById('newTaskAgent').value;
+  const desc = document.getElementById('newTaskDesc').value;
+  const output = document.getElementById('newTaskOutput').value;
+  
+  if (!name || !desc) { showToast('⚠ Name und Beschreibung ausfüllen!'); return; }
+  
+  const id = 'TASK-' + String(state.tasks.length + 1).padStart(3, '0');
+  const prompt = `[${agent.toUpperCase()}] ${id}: ${name}
+
+Aufgabe: ${desc}
+
+Output speichern unter: ${output || '~/.openclaw/workspace/bulldocks/'}
+
+Wenn fertig: Bestätige mit einer kurzen Zusammenfassung (3-5 Sätze).`;
+  
+  document.getElementById('promptText').textContent = prompt;
+  document.getElementById('generatedPrompt').style.display = 'block';
+}
+
+function copyPrompt() {
+  const text = document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('✓ Prompt kopiert!'));
+}
+
+async function addTask() {
+  const name = document.getElementById('newTaskName').value;
+  const agent = document.getElementById('newTaskAgent').value;
+  const prio = document.getElementById('newTaskPrio').value;
+  const desc = document.getElementById('newTaskDesc').value;
+  const output = document.getElementById('newTaskOutput').value;
+
+  if (!name || !desc) { showToast('⚠ Name und Beschreibung ausfüllen!'); return; }
+
+  const task = await addTaskAPI(name, agent, prio, desc, output || '~/.openclaw/workspace/bulldocks/');
+
+  if (task) {
+    hideNewTaskForm();
+    document.getElementById('newTaskName').value = '';
+    document.getElementById('newTaskDesc').value = '';
+    document.getElementById('newTaskOutput').value = '';
+    showToast(`✓ ${task.id} hinzugefügt`);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function refreshAll() {
+  connectGateway();
+  renderTasks();
+  renderFiles();
+  showToast('↺ Refreshed');
+}
+
+function selectTask(id) {
+  // Future: expand task detail
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  fetchTasks();
+  fetchFiles();
+  connectGateway();
+  startAutoRefresh();
+});
+</script>
+</body>
+</html>
