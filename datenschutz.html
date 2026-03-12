@@ -1,167 +1,142 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutz — Bulldocks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-        header {
-            background: #1a1a1a;
-            color: white;
-            padding: 20px 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        header img { height: 40px; }
-        header a { color: #ff6b35; text-decoration: none; font-weight: 600; }
-        main {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 28px;
-        }
-        .info-box {
-            background: #f0f8ff;
-            border-left: 4px solid #ff6b35;
-            padding: 16px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 36px;
-            margin-bottom: 30px;
-            letter-spacing: 0.05em;
-        }
-        h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 18px;
-            margin-top: 30px;
-            margin-bottom: 12px;
-            color: #ff6b35;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        p { margin-bottom: 16px; }
-        .placeholder { background: #f5f5f5; padding: 8px 12px; border-radius: 4px; color: #999; font-family: monospace; }
-        footer {
-            background: #f5f5f5;
-            padding: 30px 28px;
-            text-align: center;
-            margin-top: 60px;
-            color: #999;
-            font-size: 13px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutzerklärung — Bulldocks</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #ffffff; color: #1a1a1a; line-height: 1.7; }
+  .warning { background: #fff3cd; border-left: 4px solid #ff6b35; padding: 14px 20px; font-size: 14px; color: #7a4f00; }
+  header { background: #f8f8f8; border-bottom: 2px solid #ff6b35; padding: 20px 0; }
+  .header-inner { max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 22px; font-weight: 900; color: #1a1a1a; text-decoration: none; }
+  .logo span { color: #ff6b35; }
+  .back { font-size: 13px; color: #ff6b35; text-decoration: none; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 28px; font-weight: 900; margin-bottom: 6px; }
+  .subtitle { color: #666; font-size: 14px; margin-bottom: 36px; }
+  h2 { font-size: 17px; font-weight: 700; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e5e5; }
+  h3 { font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: #333; }
+  p { margin-bottom: 12px; font-size: 15px; color: #333; }
+  ul { margin: 8px 0 14px 22px; font-size: 15px; color: #333; }
+  li { margin-bottom: 6px; }
+  a { color: #ff6b35; }
+  .card { background: #f8f8f8; border: 1px solid #e5e5e5; border-radius: 10px; padding: 18px 22px; margin: 16px 0; }
+  .rights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .right-item { background: #f8f8f8; border: 1px solid #e5e5e5; border-radius: 8px; padding: 14px; }
+  .right-item strong { display: block; font-size: 14px; color: #ff6b35; margin-bottom: 4px; }
+  .right-item p { font-size: 13px; color: #555; margin: 0; }
+  .no-cookie { background: #f0fff4; border: 1px solid #86efac; border-radius: 6px; padding: 12px 16px; font-size: 14px; color: #166534; margin: 12px 0; }
+  footer { background: #f8f8f8; border-top: 1px solid #e5e5e5; padding: 20px 24px; text-align: center; font-size: 13px; color: #888; }
+  @media (max-width: 600px) { .rights-grid { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
-    <header>
-        <a href="/" title="Zur Startseite">
-            <img src="assets/logo.svg" alt="Bulldocks">
-        </a>
-        <a href="/">← Zurück zur Startseite</a>
-    </header>
 
-    <main>
-        <h1>Datenschutzerklärung</h1>
+<div class="warning">⚠️ <strong>Vor Go-Live:</strong> Daniel Maerz als Verantwortlicher eintragen. Falls zukünftig Analytics, Cookies oder externe Tools eingebunden werden, diese Erklärung entsprechend erweitern.</div>
 
-        <div class="info-box">
-            ℹ️ <strong>Transparenz:</strong> Wir speichern keine persönlichen Daten. Diese Website ist maximal datenschutzfreundlich.
-        </div>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">BULL<span>DOCKS</span></a>
+    <a href="index.html" class="back">← Zurück zur Hauptseite</a>
+  </div>
+</header>
 
-        <h2>1. Verantwortlicher</h2>
-        <p>
-            <span class="placeholder">[VORNAME NACHNAME]</span><br>
-            <span class="placeholder">[ANSCHRIFT]</span><br>
-            <span class="placeholder">[EMAIL]</span>
-        </p>
+<main>
+  <h1>Datenschutzerklärung</h1>
+  <p class="subtitle">Bulldocks · Stand: März 2026 · Gemäß DSGVO und BDSG</p>
 
-        <h2>2. Hosting & Datenverarbeitung</h2>
-        <p>
-            <strong>Diese Website wird gehostet auf GitHub Pages</strong> (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA).
-        </p>
-        <p>
-            GitHub verarbeitet Zugriffsdaten (IP-Adressen, Zugriffsvorgänge) nach den GitHub-Nutzungsbedingungen:
-            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Privacy Statement</a>
-        </p>
-        <p>
-            GitHub speichert Serverprotokolle temporär für technische und Sicherheitszwecke. Diese Daten werden nicht an Dritte weitergegeben.
-        </p>
+  <h2>1. Verantwortlicher</h2>
+  <div class="card">
+    <p><strong>Verantwortlicher im Sinne der DSGVO:</strong></p>
+    <p>Bulldocks<br>
+    Inhaber: Daniel Maerz<br>
+    Ludwigstraße 7a, 84478 Waldkraiburg, Deutschland<br>
+    E-Mail: <a href="mailto:kontakt@bulldocks.net">kontakt@bulldocks.net</a></p>
+  </div>
 
-        <h2>3. Keine Cookies</h2>
-        <p>
-            Diese Website verwendet <strong>KEINE Cookies</strong> und <strong>KEIN Tracking</strong> (Google Analytics, Facebook Pixel, etc.). 
-            Daher ist keine Cookie-Einwilligung erforderlich.
-        </p>
+  <h2>2. Hosting — GitHub Pages</h2>
+  <p>Diese Website wird über <strong>GitHub Pages</strong> gehostet, einem Dienst der GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.</p>
+  <p>Beim Abruf der Website werden durch GitHub Pages automatisch folgende Daten in Server-Logfiles erfasst:</p>
+  <ul>
+    <li>IP-Adresse des anfragenden Geräts</li>
+    <li>Datum und Uhrzeit der Anfrage</li>
+    <li>Aufgerufene Seite / Dateiname</li>
+    <li>Übertragene Datenmenge</li>
+    <li>Browser-Typ und Betriebssystem</li>
+    <li>Referrer-URL (zuvor besuchte Seite)</li>
+  </ul>
+  <p>Diese Daten werden von GitHub verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Website). Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Privacy Statement</a></p>
 
-        <h2>4. Keine Kontaktformulare</h2>
-        <p>
-            Diese Website hat <strong>KEINE Kontaktformulare</strong>. Alle Links verweisen auf externe Dienste (Etsy, Telegram).
-        </p>
+  <h2>3. Cookies und Tracking</h2>
+  <div class="no-cookie">
+    ✅ <strong>Diese Website verwendet keine Cookies</strong> und setzt kein Tracking oder Analysewerkzeuge ein. Es werden keine Nutzerdaten für Werbezwecke erhoben oder weitergegeben.
+  </div>
+  <p>Es werden keine Drittanbieter-Skripte (Google Analytics, Facebook Pixel o. ä.) eingebunden.</p>
 
-        <h2>5. Externe Links</h2>
-        <p>
-            Links zu Etsy, GitHub oder anderen Diensten unterliegen den Datenschutzrichtlinien dieser Dienste:
-        </p>
-        <ul style="margin-left: 20px; margin-bottom: 16px;">
-            <li><a href="https://www.etsy.com/de/privacy" target="_blank">Etsy Datenschutz</a></li>
-            <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub Datenschutz</a></li>
-        </ul>
+  <h2>4. Kontaktaufnahme per E-Mail</h2>
+  <p>Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben (E-Mail-Adresse, Inhalt der Nachricht) zum Zweck der Bearbeitung Ihrer Anfrage bei uns gespeichert.</p>
+  <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung / Vertragserfüllung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Die Daten werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
 
-        <h2>6. Betroffenenrechte (DSGVO)</h2>
-        <p>
-            Da wir keine persönlichen Daten speichern, gelten folgende Rechte eingeschränkt:
-        </p>
-        <ul style="margin-left: 20px; margin-bottom: 16px;">
-            <li><strong>Auskunftspflicht:</strong> Wir speichern keine personalisierten Daten.</li>
-            <li><strong>Löschung:</strong> Nicht anwendbar (keine Datenspeicherung).</li>
-            <li><strong>Datenübertragung:</strong> Nicht anwendbar (keine Datenspeicherung).</li>
-            <li><strong>Widerspruch:</strong> Sie können jederzeit Bedenken äußern unter <span class="placeholder">[EMAIL]</span></li>
-        </ul>
+  <h2>5. Bestellungen über Etsy</h2>
+  <p>Bestellungen werden über die Plattform <strong>Etsy Inc.</strong> abgewickelt. Dabei verarbeitet Etsy personenbezogene Daten (Name, Adresse, Zahlungsdaten) nach eigenen Datenschutzbestimmungen. Wir erhalten im Rahmen der Auftragsabwicklung die zur Lieferung notwendigen Daten (Name, Lieferadresse).</p>
+  <p>Weitere Informationen: <a href="https://www.etsy.com/de/legal/privacy/" target="_blank">Etsy Datenschutzerklärung</a></p>
+  <p>Rechtsgrundlage für unsere Verarbeitung: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</p>
 
-        <h2>7. Serverlog-Daten (GitHub)</h2>
-        <p>
-            GitHub kann folgende technische Daten speichern:
-        </p>
-        <ul style="margin-left: 20px; margin-bottom: 16px;">
-            <li>IP-Adresse des Zugriffs</li>
-            <li>Browser-Typ und -Version</li>
-            <li>Betriebssystem</li>
-            <li>Referrer URL</li>
-            <li>Zeitstempel des Zugriffs</li>
-        </ul>
-        <p>
-            Diese Daten dienen der Website-Sicherheit und Fehlerbehandlung. Sie werden nach kurzer Zeit gelöscht.
-        </p>
+  <h2>6. Bestelldaten / Kundendaten</h2>
+  <p>Im Rahmen von Bestellungen erheben wir folgende Daten:</p>
+  <ul>
+    <li>Name und Anschrift (Lieferadresse)</li>
+    <li>E-Mail-Adresse</li>
+    <li>Bestelldetails (Produkt, Preis, Datum)</li>
+  </ul>
+  <p>Diese Daten werden ausschließlich zur Auftragsabwicklung und gesetzlich vorgeschriebenen Aufbewahrung (10 Jahre nach § 147 AO) verarbeitet.</p>
+  <p>Eine Weitergabe an Dritte erfolgt nur, soweit dies zur Lieferung (Versanddienstleister) oder gesetzlich erforderlich ist.</p>
 
-        <h2>8. Änderungen dieser Datenschutzerklärung</h2>
-        <p>
-            Wir behalten uns vor, diese Datenschutzerklärung anzupassen, falls sich die technischen oder rechtlichen Rahmenbedingungen ändern.
-            Wesentliche Änderungen werden auf dieser Seite mitgeteilt.
-        </p>
+  <h2>7. Ihre Rechte</h2>
+  <p>Sie haben nach DSGVO folgende Rechte gegenüber uns als Verantwortlichem:</p>
+  <div class="rights-grid">
+    <div class="right-item">
+      <strong>Auskunft (Art. 15)</strong>
+      <p>Sie können Auskunft über Ihre gespeicherten Daten verlangen.</p>
+    </div>
+    <div class="right-item">
+      <strong>Berichtigung (Art. 16)</strong>
+      <p>Sie können unrichtige Daten berichtigen lassen.</p>
+    </div>
+    <div class="right-item">
+      <strong>Löschung (Art. 17)</strong>
+      <p>Sie können die Löschung Ihrer Daten verlangen, soweit keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+    </div>
+    <div class="right-item">
+      <strong>Einschränkung (Art. 18)</strong>
+      <p>Sie können die Verarbeitung einschränken lassen.</p>
+    </div>
+    <div class="right-item">
+      <strong>Widerspruch (Art. 21)</strong>
+      <p>Sie können der Verarbeitung auf Basis berechtigter Interessen widersprechen.</p>
+    </div>
+    <div class="right-item">
+      <strong>Beschwerde (Art. 77)</strong>
+      <p>Sie können sich bei einer Datenschutzbehörde beschweren. Zuständig: Bayerisches Landesamt für Datenschutzaufsicht (BayLDA).</p>
+    </div>
+  </div>
+  <p>Zur Ausübung Ihrer Rechte wenden Sie sich an: <a href="mailto:kontakt@bulldocks.net">kontakt@bulldocks.net</a></p>
 
-        <h2>9. Kontakt zum Datenschutz</h2>
-        <p>
-            Bei Fragen zum Datenschutz kontaktieren Sie bitte:<br>
-            <strong>E-Mail:</strong> <span class="placeholder">[DATENSCHUTZ@BULLDOCKS.NET]</span>
-        </p>
+  <h2>8. Datensicherheit</h2>
+  <p>Diese Website verwendet HTTPS (TLS-Verschlüsselung) für die sichere Übertragung. Die Zertifikate werden von GitHub Pages automatisch bereitgestellt.</p>
 
-        <p style="margin-top: 30px; font-size: 13px; color: #999;">
-            <strong>Letzte Aktualisierung:</strong> März 2026
-        </p>
-    </main>
+  <h2>9. Aktualität dieser Erklärung</h2>
+  <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn sich rechtliche Anforderungen oder unser Angebot ändern. Die aktuelle Version ist stets unter <a href="https://bulldocks.net/datenschutz">bulldocks.net/datenschutz</a> abrufbar.</p>
+  <p>Stand: März 2026</p>
+</main>
 
-    <footer>
-        Bulldocks UG — Made in Germany
-    </footer>
+<footer>
+  Bulldocks · Ludwigstraße 7a · 84478 Waldkraiburg ·
+  <a href="impressum.html">Impressum</a> ·
+  <a href="agb.html">AGB</a> ·
+  <a href="index.html">Shop</a>
+</footer>
 </body>
 </html>
