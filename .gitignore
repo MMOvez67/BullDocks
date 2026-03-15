@@ -5,3 +5,10 @@ node_modules/
 /docs
 .vscode/
 .mcp.json
+
+# Sensible interne Docs — niemals ins Repo
+OPERATIONS-INFRASTRUCTURE.md
+SALES-LAUNCH-READINESS.md
+BUSINESS-WORKFLOW-5-STAGE.md
+CLAUDE.md
+PROJECT_STRUCTURE.md
