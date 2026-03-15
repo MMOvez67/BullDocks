@@ -1,0 +1,83 @@
+{
+  "name": "Bulldocks: Order Tracking (15min poll)",
+  "description": "Poll Etsy API every 15 minutes for new orders, push to Slack #sales-incoming",
+  "nodes": [
+    {
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.schedule",
+      "parameters": {
+        "interval": [15, "minutes"]
+      },
+      "position": [250, 300]
+    },
+    {
+      "name": "Call Etsy-MCP",
+      "type": "n8n-nodes-base.http",
+      "parameters": {
+        "authentication": "bearerToken",
+        "method": "POST",
+        "url": "http://localhost:3000/mcp/call",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "tool": "fetch_orders",
+          "arguments": {
+            "limit": 100,
+            "days_back": 1
+          }
+        }
+      },
+      "position": [450, 300]
+    },
+    {
+      "name": "Filter New Orders",
+      "type": "n8n-nodes-base.itemLists",
+      "parameters": {
+        "mode": "onlyItemsWithNoMatches",
+        "rule": {
+          "value1": "{{ $json.status }}",
+          "condition": "notEqual",
+          "value2": "completed"
+        }
+      },
+      "position": [650, 300]
+    },
+    {
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {
+        "authentication": "oAuth2",
+        "channel": "#sales-incoming",
+        "text": "🎯 NEW ORDER DETECTED!\n\nOrder ID: {{ $json.order_id }}\nBuyer: {{ $json.buyer_name }}\nTotal: {{ $json.total_price }}\nTime: {{ $json.create_timestamp }}\n\nList: {{ $json.listings[0].title }}"
+      },
+      "position": [850, 300]
+    },
+    {
+      "name": "Store in DB",
+      "type": "n8n-nodes-base.sqlite",
+      "parameters": {
+        "operation": "insert",
+        "table": "orders",
+        "columns": "order_id, buyer_name, total_price, status, created_at",
+        "data": "{{ $json.order_id }}, {{ $json.buyer_name }}, {{ $json.total_price }}, {{ $json.status }}, NOW()"
+      },
+      "position": [850, 450]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "Call Etsy-MCP", "index": 0 }]]
+    },
+    "Call Etsy-MCP": {
+      "main": [[{ "node": "Filter New Orders", "index": 0 }]]
+    },
+    "Filter New Orders": {
+      "main": [[
+        { "node": "Slack Notification", "index": 0 },
+        { "node": "Store in DB", "index": 0 }
+      ]]
+    }
+  },
+  "notes": "SETUP STEPS:\n1. Install n8n locally: npm install -g n8n\n2. Start n8n: n8n start\n3. Go to http://localhost:5678\n4. Create new workflow (paste this config)\n5. Configure Slack auth token\n6. Test with manual trigger\n7. Enable workflow (clock icon, turn ON)\n\nERROR HANDLING:\n- If Etsy-MCP fails, email admin + retry in 5 min\n- If Slack fails, log to file + retry next cycle\n- Monitor success rate in workflow execution logs"
+}
