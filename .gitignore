@@ -17,3 +17,12 @@ PROJECT_STRUCTURE.md
 assets/cad/
 assets/business/
 bulldocks-masterprompt.md
+
+# Sicherheit — NIE ins Repo
+node_modules/
+.mcp-server/
+.n8n-workflows/
+server.js
+start.sh
+package-lock.json
+bulldocks-dashboard.html
