@@ -12,3 +12,7 @@ SALES-LAUNCH-READINESS.md
 BUSINESS-WORKFLOW-5-STAGE.md
 CLAUDE.md
 PROJECT_STRUCTURE.md
+
+# CAD und Business-Dateien — nur lokal
+assets/cad/
+assets/business/
