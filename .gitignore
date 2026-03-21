@@ -24,5 +24,12 @@ node_modules/
 .n8n-workflows/
 server.js
 start.sh
+package.json
 package-lock.json
 bulldocks-dashboard.html
+
+# CAD / Office-Dateien
+*.stp
+*.step
+*.xlsx
+*.xls
