@@ -18,6 +18,10 @@ assets/cad/
 assets/business/
 bulldocks-masterprompt.md
 
+# Docker Infrastructure Secrets — NIE ins Repo
+infrastructure/secrets/
+infrastructure/.env
+
 # Sicherheit — NIE ins Repo
 node_modules/
 .mcp-server/
@@ -26,3 +30,5 @@ server.js
 start.sh
 package-lock.json
 bulldocks-dashboard.html
+.claude/
+docs/docker-compose.yml
