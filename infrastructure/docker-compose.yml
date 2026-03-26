@@ -86,6 +86,7 @@ services:
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - WEBHOOK_URL=http://localhost:5678/
+      - N8N_SECURE_COOKIE=false
     secrets:
       - n8n_encryption_key
       - postgres_password
