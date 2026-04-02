@@ -18,9 +18,12 @@ assets/cad/
 assets/business/
 bulldocks-masterprompt.md
 
-# Docker Infrastructure Secrets — NIE ins Repo
-infrastructure/secrets/
-infrastructure/.env
+# Interne Infrastruktur & Automation — NIE ins Repo
+infrastructure/
+automation/
+tasks/
+*.masterplan*.md
+bulldocks-masterplan*.md
 
 # Sicherheit — NIE ins Repo
 node_modules/
