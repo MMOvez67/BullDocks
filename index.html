@@ -16,9 +16,8 @@
 <link rel="canonical" href="https://bulldocks.net">
 <meta property="og:image" content="https://bulldocks.net/assets/photos/etsy/Werfer-Distant.jpg">
 <link rel="icon" type="image/png" href="assets/brand/bd-logo-mark.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product","name":"BullDocks Türrahmen-Halterung für Dartscheiben","brand":{"@type":"Brand","name":"BullDocks"},"description":"Halterung für Steeldart-Scheiben zur werkzeugfreien Verspannung im Türrahmen. Kein Bohren, kein Dübel, Bullseye auf WDF-Höhe 1,73 m. 3D-gedruckt auf Bestellung in Bayern.","image":"https://bulldocks.net/assets/photos/etsy/Werfer-Distant.jpg","countryOfOrigin":"DE","offers":{"@type":"AggregateOffer","priceCurrency":"EUR","lowPrice":"89.99","highPrice":"129.99","offerCount":"3","availability":"https://schema.org/InStock","url":"https://bulldocks.etsy.com"}}
 </script>
@@ -254,6 +253,11 @@ html[data-theme="dark"] #themeBtn .ic-moon{display:none}
 .band h2,.band h3{color:#fff}
 .band .lead,.band p{color:var(--ink-200)}
 .band .chip{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#fff}
+.videowrap{position:relative;max-width:330px;margin:0 auto;aspect-ratio:9/16;border-radius:var(--radius-image);overflow:hidden;border:1px solid var(--bd-soft);box-shadow:var(--shadow-2);background:var(--bg-muted)}
+.videowrap video{width:100%;height:100%;object-fit:cover;display:block}
+.videowrap .vbtn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:#fff;transition:opacity .25s}
+.videowrap .vbtn svg{width:64px;height:64px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}
+.videowrap.playing .vbtn{opacity:0;pointer-events:none}
 .safety{display:flex;gap:14px;background:color-mix(in srgb,var(--warning) 14%,transparent);border:1px solid color-mix(in srgb,var(--warning) 45%,transparent);
   border-radius:var(--radius-card);padding:16px 18px;margin-top:26px}
 .safety svg{width:22px;height:22px;flex:none;color:var(--warning);margin-top:2px}
@@ -367,7 +371,7 @@ header.hid{transform:translateY(-100%)}
 @keyframes bullpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
 #dimSvg.draw #dgBull{animation:bullpulse 1.2s ease 2.2s 2;transform-origin:171px 160px;transform-box:fill-box}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/three.min.js"></script>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -517,6 +521,30 @@ header.hid{transform:translateY(-100%)}
       </div>
     </div>
     <div class="rv" style="margin-top:34px"><a class="btn btn-ghost" href="montage.html">Komplette Montage- &amp; Mess-Anleitung ansehen</a></div>
+  </div>
+</section>
+
+<!-- ============ MONTAGE-VIDEO ============ -->
+<section class="band" id="video">
+  <div class="container">
+    <div class="split">
+      <div>
+        <div class="eyebrow rv">In echt — ein Take</div>
+        <h2 class="rv" data-d="1">60 Sekunden bis<br>zum ersten Wurf.</h2>
+        <p class="lead rv" data-d="2">Kein Schnitt, kein Trick: einsetzen, festziehen, einhängen — und werfen. So schnell hängt die Scheibe im Türrahmen.</p>
+        <div class="chips rv" data-d="2" style="margin-top:22px">
+          <span class="chip"><i></i>Ohne Bohren</span>
+          <span class="chip"><i></i>Ohne Werkzeug</span>
+          <span class="chip"><i></i>5-Sekunden-Clip</span>
+        </div>
+      </div>
+      <div class="videowrap rv" data-d="1">
+        <video id="montageVid" poster="assets/videos/hero-poster.jpg" muted loop playsinline preload="none" aria-label="BullDocks Montage in echt — kurzer Videoclip">
+          <source src="assets/videos/hero-clip.mp4" type="video/mp4">
+        </video>
+        <button class="vbtn" type="button" aria-label="Video mit Ton abspielen"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.45)"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg></button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -948,6 +976,7 @@ new IntersectionObserver(function(es){es.forEach(function(e){showCta=!e.isInters
 new IntersectionObserver(function(es){es.forEach(function(e){nearEnd=e.isIntersecting;sync();});},{threshold:0.05}).observe(fin||foot);
 function sync(){sticky.classList.toggle("show",showCta&&!nearEnd);}
 
+(function(){var V=document.getElementById("montageVid");if(!V)return;var W=V.closest(".videowrap"),B=W&&W.querySelector(".vbtn");var RM=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;function pl(){V.play().then(function(){if(W)W.classList.add("playing");}).catch(function(){});}if(B)B.addEventListener("click",function(){V.muted=false;pl();});if(!RM){new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?pl():V.pause();});},{threshold:0.4}).observe(V);}})();
 d.getElementById("yr").textContent=new Date().getFullYear();
 })();
 </script>

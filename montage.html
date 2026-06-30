@@ -16,9 +16,8 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://bulldocks.net/montage.html">
 <link rel="icon" type="image/png" href="assets/brand/bd-logo-mark.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HowTo","name":"BullDocks Türrahmen-Halterung montieren","description":"Werkzeugfreie Montage der BullDocks Dartscheiben-Halterung im Türrahmen — ohne Bohren, in unter 60 Sekunden.","totalTime":"PT1M","supply":[{"@type":"HowToSupply","name":"BullDocks Halterung"},{"@type":"HowToSupply","name":"Steeldart-Scheibe mit Standard-Aufhängung"}],"tool":[{"@type":"HowToTool","name":"Maßband (nur zum Messen vor dem Kauf)"}],"step":[{"@type":"HowToStep","name":"Einsetzen","text":"Tragschiene mittig auf die Rahmenoberkante auflegen; die Stützpfosten führen die Halterung vor der Zarge nach unten."},{"@type":"HowToStep","name":"Festziehen","text":"Sicherheitsschraubstock handfest anziehen, bis nichts mehr wackelt. Kein Werkzeug nötig."},{"@type":"HowToStep","name":"Einhängen & Rucktest","text":"Scheibe mit der Standard-Aufhängung einhängen — Bullseye sitzt automatisch auf 1,73 m. Vor dem ersten Wurf kräftig rucken, nichts darf sich bewegen."}]}
 </script>
@@ -121,6 +120,11 @@ html[data-theme="dark"] .logo img,html[data-theme="dark"] footer .logo img{filte
 .spec .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-subtle);display:block;margin-bottom:4px}
 .spec .v{font-weight:700;color:var(--tx-strong);font-size:15px}
 .cta-row{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.videowrap{position:relative;max-width:330px;margin:0 auto;aspect-ratio:9/16;border-radius:var(--radius-image);overflow:hidden;border:1px solid var(--bd-soft);box-shadow:var(--shadow-2);background:var(--bg-muted)}
+.videowrap video{width:100%;height:100%;object-fit:cover;display:block}
+.videowrap .vbtn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:#fff;transition:opacity .25s}
+.videowrap .vbtn svg{width:64px;height:64px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}
+.videowrap.playing .vbtn{opacity:0;pointer-events:none}
 /* footer */
 footer{border-top:1.5px solid var(--bd-soft);padding:44px 0 56px;background:var(--bg);margin-top:var(--section-pad)}
 .foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
@@ -226,6 +230,13 @@ footer .logo img{height:34px}
         <span class="mono-tip">Bullseye automatisch auf 1,73 m</span></div>
       </div>
     </div>
+    <p class="lead" style="text-align:center;margin:36px auto 0">So sieht's in echt aus — ein Take, fünf Sekunden:</p>
+    <div class="videowrap" style="margin-top:18px">
+      <video id="montageVid" poster="assets/videos/hero-poster.jpg" muted loop playsinline preload="none" aria-label="BullDocks Montage-Videoclip">
+        <source src="assets/videos/hero-clip.mp4" type="video/mp4">
+      </video>
+      <button class="vbtn" type="button" aria-label="Video mit Ton abspielen"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.45)"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg></button>
+    </div>
   </div>
 </section>
 
@@ -293,6 +304,7 @@ var stored=null;try{stored=localStorage.getItem("bd-theme")}catch(e){}
 setTheme(stored||"dark");
 d.getElementById("themeBtn").addEventListener("click",function(){
   setTheme(root.getAttribute("data-theme")==="dark"?"light":"dark");});
+(function(){var V=document.getElementById("montageVid");if(!V)return;var W=V.closest(".videowrap"),B=W&&W.querySelector(".vbtn");var RM=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;function pl(){V.play().then(function(){if(W)W.classList.add("playing");}).catch(function(){});}if(B)B.addEventListener("click",function(){V.muted=false;pl();});if(!RM){new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?pl():V.pause();});},{threshold:0.4}).observe(V);}})();
 var yr=d.getElementById("yr");if(yr)yr.textContent=new Date().getFullYear();
 })();
 </script>
