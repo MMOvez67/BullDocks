@@ -31,7 +31,7 @@
 </script>
 <style>
 /* ============================================================
-   BULLDOCKS v2 — „Präzision trifft Wohnzimmer"
+   BULLDOCKS v3 FINAL — „Präzision trifft Wohnzimmer"
    Design-System: Daidalos (Token 1:1) + Dark-Layer + Scroll-Engine
    ============================================================ */
 :root{
@@ -151,7 +151,7 @@ html[data-theme="dark"] #themeBtn .ic-moon{display:none}
   background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px),
   linear-gradient(var(--grid-line-2) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line-2) 1px,transparent 1px);
   background-size:96px 96px,96px 96px,24px 24px,24px 24px;
-  transform:translate3d(calc(var(--mx,0)*8px),calc(var(--my,0)*8px),0)}
+  transform:translate3d(calc(var(--mx,0)*26px),calc(var(--my,0)*18px),0);will-change:transform}
 .stage-glow{position:absolute;inset:0;z-index:0;background:var(--hero-glow);pointer-events:none}
 .stage-grid-fade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,var(--bg) 0%,transparent 18%,transparent 78%,var(--bg) 100%);pointer-events:none}
 .hero-wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px;align-items:center;
@@ -163,7 +163,10 @@ html[data-theme="dark"] #themeBtn .ic-moon{display:none}
 .hp .lead{margin-top:18px}
 .hp .cta-row{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
 .hp .chips{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
-.hero-svg-box{position:relative;transform:translate3d(calc(var(--mx,0)*-16px),calc(var(--my,0)*-12px),0)}
+.hero-svg-box{position:relative;transform:perspective(1100px) translate3d(calc(var(--mx,0)*-34px),calc(var(--my,0)*-24px),0) rotateY(calc(var(--mx,0)*4.5deg)) rotateX(calc(var(--my,0)*-3.5deg));will-change:transform}
+.hero-copy{transform:translate3d(calc(var(--mx,0)*12px),calc(var(--my,0)*9px),0)}
+.dim-overlay{translate:calc(var(--mx,0)*18px) calc(var(--my,0)*8px)}
+@media (prefers-reduced-motion:reduce){.hero-svg-box,.hero-copy,.stage-bg{transform:none!important}}
 .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;
   color:var(--tx-subtle);font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;transition:opacity .4s}
 .scroll-hint::after{content:"";width:1.5px;height:34px;background:linear-gradient(180deg,var(--target-500),transparent);animation:hint 1.6s ease-in-out infinite}
@@ -370,6 +373,30 @@ header.hid{transform:translateY(-100%)}
 #dimSvg.draw .dartfly{opacity:1}
 @keyframes bullpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
 #dimSvg.draw #dgBull{animation:bullpulse 1.2s ease 2.2s 2;transform-origin:171px 160px;transform-box:fill-box}
+/* ====== v3 FINAL-Layer: CAD-Callouts, Montage-Counter, Micro-FX ====== */
+.p-callouts{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.p-lab{position:absolute;transform:translate(-50%,-130%);font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;
+  color:var(--tx-strong);background:color-mix(in srgb,var(--bg-card) 84%,transparent);border:1px solid var(--bd-soft);
+  border-left:2px solid var(--target-500);padding:3px 8px;border-radius:2px;white-space:nowrap;opacity:0;
+  transition:opacity .3s ease;text-transform:uppercase;backdrop-filter:blur(4px)}
+.p-lab::after{content:"";position:absolute;left:50%;top:100%;width:1.5px;height:13px;background:var(--target-500);opacity:.75}
+.p-lab.on{opacity:1}
+@media(max-width:900px){.p-callouts{display:none}}
+@media (prefers-reduced-motion:reduce){.p-callouts{display:none}}
+#mtgPct{color:var(--tx-accent);margin-left:10px;letter-spacing:.16em}
+.btn-primary{position:relative;overflow:hidden}
+.btn-primary::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;transform:skewX(-22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);transition:left .55s ease;pointer-events:none}
+.btn-primary:hover::after{left:135%}
+@keyframes featPulse{0%,100%{box-shadow:0 0 0 1px var(--target-500),var(--shadow-2)}
+  50%{box-shadow:0 0 0 1px var(--target-500),0 0 30px rgba(255,107,53,.30),var(--shadow-2)}}
+.price.featured{animation:featPulse 3.4s ease-in-out infinite}
+.gal .imgbox img{transition:transform .5s ease}
+.gal .imgbox:hover img{transform:scale(1.05)}
+.chip{transition:transform .18s ease,border-color .18s ease}
+.chip:hover{transform:translateY(-2px);border-color:var(--target-500)}
+@media (prefers-reduced-motion:reduce){.price.featured{animation:none}.btn-primary::after{display:none}
+  .gal .imgbox:hover img{transform:none}}
 </style>
 <script src="assets/js/three.min.js"></script>
 </head>
@@ -399,7 +426,7 @@ header.hid{transform:translateY(-100%)}
     <div class="stage-glow" aria-hidden="true"></div>
     <div class="stage-grid-fade" aria-hidden="true"></div>
     <div class="stage-grain" aria-hidden="true"></div>
-    <div class="fig-cap">Fig. 01 — Explosionsdarstellung · interaktiv</div>
+    <div class="fig-cap">Fig. 01 — Explosionsdarstellung · interaktiv<span id="mtgPct" aria-hidden="true"></span></div>
     <div class="hero-wrap">
       <div class="hero-copy">
         <div class="hp on" id="hp1">
@@ -430,6 +457,7 @@ header.hid{transform:translateY(-100%)}
       <div class="hero-svg-box">
         <canvas id="rig3d" role="img" aria-label="3D-Modell der BullDocks Türrahmen-Halterung — die Explosionsdarstellung setzt sich beim Scrollen zusammen"></canvas>
         <div class="dim-overlay" id="dimOverlay"><span class="line"></span><span class="lab">1.730&#8201;MM — WDF</span></div>
+        <div class="p-callouts" id="pCallouts" aria-hidden="true"></div>
       </div>
     </div>
     <div class="scroll-hint" id="scrollHint"><span>Scroll — Montage läuft</span></div>
@@ -563,11 +591,27 @@ header.hid{transform:translateY(-100%)}
         <rect x="128" y="28" width="104" height="14" rx="4" fill="var(--ink-900)"/>
         <rect x="166" y="40" width="10" height="80" fill="var(--steel-400)"/>
         <circle cx="171" cy="160" r="52" fill="var(--ink-900)"/>
-        <circle cx="171" cy="160" r="44" fill="var(--paper-100)" stroke="var(--ink-900)" stroke-width="1.4"/>
-        <circle cx="171" cy="160" r="40" fill="none" stroke="var(--error)" stroke-width="5" stroke-dasharray="12.5 12.5"/>
-        <circle cx="171" cy="160" r="40" fill="none" stroke="var(--success)" stroke-width="5" stroke-dasharray="12.5 12.5" stroke-dashoffset="12.5"/>
-        <circle id="dgBull" cx="171" cy="160" r="6" fill="var(--target-500)"/>
-        <g font-size="10" fill="var(--tx-subtle)" text-anchor="middle"><text x="171" y="104">20</text><text x="171" y="226">3</text><text x="116" y="164">11</text><text x="226" y="164">6</text></g>
+        <circle cx="171" cy="160" r="43" fill="var(--paper-100)" stroke="var(--ink-900)" stroke-width="1.2"/>
+        <g stroke="var(--steel-400)" stroke-width=".8" opacity=".65">
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(9 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(27 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(45 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(63 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(81 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(99 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(117 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(135 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(153 171 160)"/>
+          <line x1="171" y1="117" x2="171" y2="203" transform="rotate(171 171 160)"/>
+        </g>
+        <circle cx="171" cy="160" r="41" fill="none" stroke="var(--error)" stroke-width="3.6" stroke-dasharray="12.88 12.88" transform="rotate(-9 171 160)"/>
+        <circle cx="171" cy="160" r="41" fill="none" stroke="var(--success)" stroke-width="3.6" stroke-dasharray="12.88 12.88" stroke-dashoffset="12.88" transform="rotate(-9 171 160)"/>
+        <circle cx="171" cy="160" r="26" fill="none" stroke="var(--error)" stroke-width="3.4" stroke-dasharray="8.17 8.17" transform="rotate(-9 171 160)"/>
+        <circle cx="171" cy="160" r="26" fill="none" stroke="var(--success)" stroke-width="3.4" stroke-dasharray="8.17 8.17" stroke-dashoffset="8.17" transform="rotate(-9 171 160)"/>
+        <circle cx="171" cy="160" r="9" fill="var(--success)" stroke="var(--ink-900)" stroke-width="1"/>
+        <circle id="dgBull" cx="171" cy="160" r="4.6" fill="var(--target-500)"/>
+        <g font-size="9.5" fill="var(--paper-100)" opacity=".85" text-anchor="middle">
+          <text x="171" y="115">20</text><text x="171" y="211">3</text><text x="124" y="163.5">11</text><text x="218" y="163.5">6</text></g>
         <g class="dline" stroke="var(--target-500)" stroke-width="2.5"><line x1="70" y1="420" x2="70" y2="160" pathLength="1" class="dline"/></g>
         <line x1="58" y1="420" x2="82" y2="420" stroke="var(--target-500)" stroke-width="2.5"/>
         <line x1="58" y1="160" x2="82" y2="160" stroke="var(--target-500)" stroke-width="2.5"/>
@@ -580,17 +624,36 @@ header.hid{transform:translateY(-100%)}
         <g class="dlabel"><line x1="800" y1="420" x2="800" y2="330" stroke="var(--bd-steel)" stroke-width="2" stroke-dasharray="6 6"/>
         <text x="800" y="316" font-size="13" fill="var(--tx-muted)" text-anchor="middle">ABWURFLINIE</text></g>
         <text x="171" y="86" font-size="12" fill="var(--tx-muted)" text-anchor="middle">SCHEIBE Ø 451</text>
-        <!-- Werfer an der Oche -->
-        <g stroke="var(--tx-muted)" stroke-width="2.6" stroke-linecap="round" fill="none">
-          <circle cx="824" cy="246" r="11" fill="none"/>
-          <line x1="824" y1="257" x2="824" y2="305"/>
-          <line x1="824" y1="305" x2="808" y2="338"/><line x1="824" y1="305" x2="840" y2="338"/>
-          <line x1="824" y1="270" x2="843" y2="292"/>
-          <line x1="824" y1="268" x2="800" y2="244"/>
+        <!-- Schriftfeld -->
+        <g>
+          <rect x="738" y="36" width="226" height="62" fill="var(--bg-card)" stroke="var(--bd-steel)" stroke-width="1.5"/>
+          <line x1="738" y1="58" x2="964" y2="58" stroke="var(--bd-steel)" stroke-width="1"/>
+          <line x1="848" y1="58" x2="848" y2="98" stroke="var(--bd-steel)" stroke-width="1"/>
+          <circle cx="753" cy="47" r="5" fill="var(--target-500)"/>
+          <text x="764" y="51.5" font-size="13" letter-spacing="2.5" fill="var(--tx-strong)" font-weight="600">BULLDOCKS</text>
+          <text x="906" y="51" font-size="9" fill="var(--tx-subtle)">FIG. 02</text>
+          <text x="746" y="73" font-size="8.5" fill="var(--tx-subtle)">MASSBLATT · WDF</text>
+          <text x="746" y="89" font-size="8.5" fill="var(--tx-muted)">KONSTR. D. MAERZ</text>
+          <text x="856" y="73" font-size="8.5" fill="var(--tx-subtle)">EINHEIT: MM</text>
+          <text x="856" y="89" font-size="8.5" fill="var(--tx-muted)">BLATT 1/1</text>
         </g>
-        <line x1="794" y1="240" x2="804" y2="247" stroke="var(--target-500)" stroke-width="3" stroke-linecap="round"/>
+        <!-- Werfer an der Oche — technische Silhouette, klassische Dart-Stance -->
+        <ellipse cx="826" cy="421" rx="36" ry="3.2" fill="var(--grid-line)"/>
+        <g stroke="var(--tx-muted)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <circle cx="826" cy="231" r="12.5"/>
+          <path d="M 828 243 C 831 251, 833.5 262, 834 275 C 834.5 292, 833 305, 831 316"/>
+          <path d="M 831 316 C 828 342, 824 372, 821 398 L 819 416"/>
+          <path d="M 819 416 L 803 419"/>
+          <path d="M 831 316 C 838 341, 847 368, 856 391 C 859.5 399, 863 407, 867 413"/>
+          <path d="M 867 413 L 876 416"/>
+          <path d="M 830 258 C 823 263, 816.5 269, 812.5 276 C 810 268, 809 258, 810 249"/>
+          <path d="M 833 262 C 838.5 275, 842 289, 842.5 302"/>
+        </g>
+        <!-- Dart in der Hand -->
+        <line x1="796" y1="242" x2="814" y2="248" stroke="var(--target-500)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 812 244 L 817 251 L 809 250 Z" fill="var(--target-500)"/>
         <!-- Wurfbahn: zeichnet sich nach den Maßlinien -->
-        <path class="dline arc" d="M 792 238 Q 470 64 186 146" fill="none" stroke="var(--target-500)" stroke-width="2"
+        <path class="dline arc" d="M 800 240 Q 470 60 186 146" fill="none" stroke="var(--target-500)" stroke-width="2"
           stroke-dasharray="1" stroke-dashoffset="1" pathLength="1" opacity=".85" stroke-linecap="round"/>
         <g class="dartfly">
           <line x1="186" y1="146" x2="206" y2="132" stroke="var(--ink-400)" stroke-width="2.4" stroke-linecap="round"/>
@@ -791,19 +854,50 @@ var bar=d.getElementById("progress");
 function onProg(){var h=d.documentElement.scrollHeight-w.innerHeight;
   bar.style.width=(h>0?(w.scrollY/h)*100:0)+"%";}
 
-/* ---------- 3D-Rig: Explosion → Montage (Three.js, nach CAD-Vorlage) ---------- */
+/* ---------- 3D-Rig: Explosion → Montage (Three.js, 1:1 nach CAD-Explosionszeichnung 100-00) ---------- */
 var scrolly=d.getElementById("scrolly"), stage=d.getElementById("stage"),
     canvas=d.getElementById("rig3d"), dimOv=d.getElementById("dimOverlay"),
-    hint=d.getElementById("scrollHint"),
+    hint=d.getElementById("scrollHint"), pctEl=d.getElementById("mtgPct"),
+    labWrap=d.getElementById("pCallouts"),
     hps=[d.getElementById("hp1"),d.getElementById("hp2"),d.getElementById("hp3")];
 function easeOut(t){return 1-Math.pow(1-t,3);}
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
-var P3={ok:false,parts:[]};
+var P3={ok:false,parts:[],labs:[]};
 function M3(c,r,m){return new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});}
 function fallback2D(){if(!canvas)return;var img=d.createElement("img");
   img.src="assets/parts/renders/100-00_Bulldocks.jpg";
   img.alt="Explosionszeichnung der BullDocks Halterung";img.className="hero-fallback";
   canvas.replaceWith(img);}
+/* Dartboard-Textur prozedural (Board nicht im Lieferumfang — stilisiert nach Turnier-Look) */
+function boardTexture(){
+  var S=1024,C=S/2,R=496,cv=d.createElement("canvas");cv.width=cv.height=S;
+  var x=cv.getContext("2d");
+  var NUM=[20,1,18,4,13,6,10,15,2,17,3,19,7,16,8,11,14,9,12,5];
+  var CREAM="#EDE5D2",BLK="#171A21",RED="#C43231",GRN="#1F7A4D",WIRE="rgba(213,216,222,.85)";
+  function ring(r0,r1,a0,a1,col){x.beginPath();x.arc(C,C,r1,a0,a1);x.arc(C,C,r0,a1,a0,true);x.closePath();x.fillStyle=col;x.fill();}
+  x.fillStyle="#101318";x.beginPath();x.arc(C,C,R,0,7);x.fill();               // Nummernband
+  var rD1=340,rD0=318,rT1=214,rT0=192,rBo=48,rBi=20;
+  for(var k=0;k<20;k++){
+    var a0=(-90-9+k*18)*Math.PI/180, a1=a0+18*Math.PI/180, dark=(k%2===0);
+    ring(rBo,rT0,a0,a1,dark?BLK:CREAM);
+    ring(rT1,rD0,a0,a1,dark?BLK:CREAM);
+    ring(rT0,rT1,a0,a1,dark?RED:GRN);                                          // Triple
+    ring(rD0,rD1,a0,a1,dark?RED:GRN);                                          // Double
+  }
+  x.strokeStyle=WIRE;x.lineWidth=2.2;                                          // Spinne
+  for(var k2=0;k2<20;k2++){var aa=(-90-9+k2*18)*Math.PI/180;
+    x.beginPath();x.moveTo(C+Math.cos(aa)*rBo,C+Math.sin(aa)*rBo);
+    x.lineTo(C+Math.cos(aa)*rD1,C+Math.sin(aa)*rD1);x.stroke();}
+  [rBo,rT0,rT1,rD0,rD1].forEach(function(rr){x.beginPath();x.arc(C,C,rr,0,7);x.stroke();});
+  x.fillStyle=GRN;x.beginPath();x.arc(C,C,rBo,0,7);x.fill();                   // Bull
+  x.fillStyle=RED;x.beginPath();x.arc(C,C,rBi,0,7);x.fill();
+  x.strokeStyle=WIRE;x.beginPath();x.arc(C,C,rBo,0,7);x.stroke();x.beginPath();x.arc(C,C,rBi,0,7);x.stroke();
+  x.fillStyle="#E9E2CF";x.font="600 54px 'DM Sans',Arial,sans-serif";           // Zahlen
+  x.textAlign="center";x.textBaseline="middle";
+  for(var n=0;n<20;n++){var an=(-90+n*18)*Math.PI/180;
+    x.fillText(NUM[n],C+Math.cos(an)*432,C+Math.sin(an)*432);}
+  var tx=new THREE.CanvasTexture(cv);tx.anisotropy=4;return tx;
+}
 function build3D(){
   if(!w.THREE||!canvas){fallback2D();return;}
   try{P3.ren=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});}
@@ -815,114 +909,215 @@ function build3D(){
   P3.hemi=new THREE.HemisphereLight(0xeef2ff,0x232a36,1.0);P3.scene.add(P3.hemi);
   P3.key=new THREE.DirectionalLight(0xfff1e2,1.3);P3.key.position.set(2.6,3.6,2.6);P3.scene.add(P3.key);
   P3.rim=new THREE.DirectionalLight(0x9db4e8,.55);P3.rim.position.set(-3,2.2,-2.6);P3.scene.add(P3.rim);
-  var mBlack=M3(0x171c26,.45,.3),mBlack2=M3(0x10141c,.5,.25),mSteel=M3(0xa8aeb6,.25,.9),
-      mWood=M3(0xb9966a,.8,.05),mCream=M3(0xefebe0,.85,0),mRed=M3(0xd6455d,.6,.05),
-      mGreen=M3(0x1fa971,.6,.05),mOrange=M3(0xff6b35,.4,.15);
+  P3.rig=new THREE.Group();P3.scene.add(P3.rig);
+  /* Materialien: PETG-Schwarz (Druckteile) · Stahlrohr · Zargen-Holz */
+  var mBlack=M3(0x1e2531,.42,.28),mBlack2=M3(0x141924,.5,.22),mEmboss=M3(0x2a3242,.4,.3),
+      mSteel=M3(0xb2b8c0,.24,.92),mWood=M3(0xb9966a,.8,.05),
+      mOrange=M3(0xff6b35,.4,.15);
   mOrange.emissive=new THREE.Color(0xff6b35);mOrange.emissiveIntensity=0;P3.bull=mOrange;
+  var mOr2=M3(0xff6b35,.45,.2);
   function box(a,b,c,m){return new THREE.Mesh(new THREE.BoxGeometry(a,b,c),m);}
   function cyl(r,h,m,seg){return new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg||24),m);}
   function tor(r,t,m,seg){return new THREE.Mesh(new THREE.TorusGeometry(r,t,12,seg||48),m);}
-  /* Türrahmen — statischer Kontext */
+  function X(o){o.rotation.z=Math.PI/2;return o;}   /* Rohr entlang X */
+  function Z(o){o.rotation.x=Math.PI/2;return o;}   /* Rohr entlang Z */
+  /* Türrahmen — statischer Kontext (Zarge) */
   var frame=new THREE.Group();
   var lin=box(1.5,.12,.16,mWood);lin.position.set(0,2.08,0);frame.add(lin);
   var jl=box(.13,2.08,.16,mWood);jl.position.set(-.69,1.02,0);frame.add(jl);
   var jr=jl.clone();jr.position.x=.69;frame.add(jr);
-  P3.scene.add(frame);
-  function part(g,off,rot,s0,e0){P3.scene.add(g);
-    P3.parts.push({o:g,hx:g.position.x,hy:g.position.y,hz:g.position.z,
+  P3.rig.add(frame);
+  function part(g,off,rot,s0,e0,lab,labY,labX){P3.rig.add(g);
+    var rec={o:g,hx:g.position.x,hy:g.position.y,hz:g.position.z,
       rx:g.rotation.x,ry:g.rotation.y,rz:g.rotation.z,
-      ox:off[0],oy:off[1],oz:off[2],qx:rot[0],qy:rot[1],qz:rot[2],s:s0,e:e0});}
-  /* Tragschiene */
-  var rail=new THREE.Group();rail.add(box(1.34,.08,.11,mBlack));
-  rail.position.set(0,2.185,0);part(rail,[0,.95,-.25],[0,0,.15],.04,.18);
-  /* Stützpfosten */
-  function post(px){var g=new THREE.Group();g.add(cyl(.03,.34,mSteel));
-    var cap=box(.075,.05,.085,mBlack);cap.position.y=-.19;g.add(cap);
-    g.position.set(px,1.97,0);return g;}
-  part(post(-.42),[-.9,.5,.1],[0,0,.45],.10,.28);
-  part(post(.42),[.9,.55,.15],[0,0,-.4],.12,.30);
-  /* Querstrebe + Nabe */
-  var cross=new THREE.Group();var ct=cyl(.028,1.16,mSteel);ct.rotation.z=Math.PI/2;cross.add(ct);
-  cross.position.set(0,1.80,0);part(cross,[1.15,.18,-.35],[0,0,.35],.18,.36);
-  var hub=new THREE.Group();hub.add(box(.13,.11,.11,mBlack2));
-  hub.position.set(0,1.80,0);part(hub,[0,.4,.85],[0,.6,0],.20,.38);
-  /* Klemmarme + Sicherheitsschraubstock */
+      ox:off[0],oy:off[1],oz:off[2],qx:rot[0],qy:rot[1],qz:rot[2],s:s0,e:e0,dock:0};
+    P3.parts.push(rec);
+    if(lab&&labWrap){var el=d.createElement("span");el.className="p-lab";el.textContent=lab;
+      labWrap.appendChild(el);P3.labs.push({el:el,rec:rec,dy:labY||.1,dx:labX||0});}
+    return rec;}
+  /* ---- 100-10 · Tragschiene (Latte): liegt oben auf der Zarge auf ---- */
+  var rail=new THREE.Group();rail.add(box(.92,.045,.13,mBlack));
+  var emb=box(.20,.024,.004,mEmboss);emb.position.set(0,0,.066);rail.add(emb);
+  var bcv=d.createElement("canvas");bcv.width=512;bcv.height=64;var bg2=bcv.getContext("2d");
+  bg2.fillStyle="#2a3242";bg2.fillRect(0,0,512,64);
+  bg2.fillStyle="#ff6b35";bg2.beginPath();bg2.arc(52,32,10,0,7);bg2.fill();
+  bg2.fillStyle="#c8cfdc";bg2.font="700 40px 'Bebas Neue','Arial Narrow',Arial,sans-serif";
+  bg2.textBaseline="middle";bg2.fillText("BULLDOCKS",84,34);
+  bg2.fillStyle="#8b95a6";bg2.font="600 26px 'JetBrains Mono',monospace";bg2.fillText("100-10",348,35);
+  var btx=new THREE.CanvasTexture(bcv);btx.anisotropy=4;
+  var bpl=new THREE.Mesh(new THREE.PlaneGeometry(.20,.025),
+    new THREE.MeshStandardMaterial({map:btx,roughness:.5,metalness:.15}));
+  bpl.position.set(0,0,.0685);rail.add(bpl);
+  [-.30,.30].forEach(function(hx){var h=cyl(.012,.05,mBlack2,12);h.position.set(hx,0,0);rail.add(h);});
+  rail.position.set(0,2.163,0);part(rail,[0,.5,-.22],[.2,0,.15],.03,.17,"100-10 · TRAGSCHIENE",.09);
+  /* ---- 100-02 · Stützrohre mit Lochraster (Höhenverstellung = 1,73 m fix) ---- */
+  function post(px){var g=new THREE.Group();g.add(cyl(.021,.42,mSteel,20));
+    for(var i2=0;i2<5;i2++){var hh=Z(cyl(.006,.048,mBlack2,10));hh.position.y=.15-i2*.055;g.add(hh);}
+    g.position.set(px,1.95,0);return g;}
+  part(post(-.30),[-.38,.45,-.12],[0,0,.5],.08,.24);
+  part(post(.30),[.4,.5,-.08],[0,0,-.45],.10,.26,"100-02 · ROHRSTÜCK · LOCHRASTER",.26);
+  /* ---- 100-03 · Winkelstücke ---- */
+  function elbow(side){var g=new THREE.Group();
+    var v=cyl(.034,.11,mBlack);v.position.y=.045;g.add(v);
+    var h=X(cyl(.034,.11,mBlack));h.position.x=side*-.052;g.add(h);
+    var k=new THREE.Mesh(new THREE.SphereGeometry(.037,18,14),mBlack);g.add(k);
+    g.position.set(side*.30,1.80,0);return g;}
+  part(elbow(-1),[-.55,.16,.22],[.4,.7,0],.16,.32,"100-03 · WINKELSTÜCK",.11);
+  part(elbow(1),[.58,.18,.2],[.4,-.7,0],.18,.34);
+  /* ---- 100-01 · Querrohr ---- */
+  var cross=new THREE.Group();cross.add(X(cyl(.019,.52,mSteel,20)));
+  cross.position.set(0,1.80,0);part(cross,[.55,.3,-.26],[0,0,.4],.24,.40,"100-01 · QUERROHR",.08);
+  /* ---- 100-06 · Mittelkreuz + Mittelrohr ---- */
+  var hub=new THREE.Group();
+  var up=cyl(.019,.16,mSteel,20);up.position.y=.095;hub.add(up);
+  hub.add(cyl(.048,.20,mBlack));hub.add(X(cyl(.048,.20,mBlack)));
+  var boss=Z(cyl(.040,.10,mBlack2));boss.position.z=.05;hub.add(boss);
+  hub.position.set(0,1.62,0);part(hub,[0,.2,.62],[.5,.8,0],.30,.46,"100-06 · MITTELKREUZ",.42);
+  /* ---- 100-04/05 · Gelenkadapter: geschwungene Streben (Trapez wie am Produkt) ---- */
   function arm(side){var g=new THREE.Group();
-    var t=cyl(.034,.60,mBlack);t.rotation.z=side*1.846;t.position.set(side*-.335,-.085,0);g.add(t);
-    var pad=box(.05,.19,.12,mBlack2);pad.position.set(side*-.625,-.18,0);g.add(pad);
-    var ax=cyl(.012,.10,mSteel);ax.rotation.z=Math.PI/2;ax.position.set(side*-.668,-.16,0);g.add(ax);
-    var kn=tor(.045,.015,P3.bull,28);kn.rotation.y=Math.PI/2;kn.position.set(side*-.715,-.16,0);g.add(kn);
-    g.position.set(0,1.80,0);return g;}
-  part(arm(1),[-1.15,-.2,.5],[0,0,-.55],.26,.48);
-  part(arm(-1),[1.15,-.15,.55],[0,0,.55],.28,.50);
-  /* Mittelsäule */
-  var col=new THREE.Group();col.add(box(.07,.16,.07,mBlack));
-  var foot=box(.10,.05,.09,mBlack2);foot.position.set(0,-.085,.02);col.add(foot);
-  col.position.set(0,1.745,.02);part(col,[-.4,-.6,.65],[.45,0,0],.36,.54);
-  /* Rückplatte */
+    var pts=[new THREE.Vector3(side*.08,.062,0),new THREE.Vector3(side*.05,.024,.010),
+             new THREE.Vector3(side*-.025,-.032,.010),new THREE.Vector3(side*-.075,-.062,0)];
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),24,.022,12,false),mBlack));
+    var k1=Z(cyl(.040,.07,mBlack2));k1.position.set(side*.08,.055,0);g.add(k1);
+    var k2=box(.062,.06,.072,mBlack2);k2.position.set(side*-.075,-.066,0);g.add(k2);
+    g.position.set(side*.22,1.70,0);return g;}
+  part(arm(-1),[-.6,-.1,.34],[0,0,-.6],.36,.52,"100-04 · GELENKADAPTER",.12);
+  part(arm(1),[.6,-.08,.36],[0,0,.6],.38,.54);
+  /* ---- Spannachse + 100-07 · Rahmenstützen (Klemmbacken, geprägt) ---- */
+  function jawAxis(side){var g=new THREE.Group();
+    var t=X(cyl(.019,.50,mSteel,20));t.position.x=side*.35;g.add(t);
+    var jaw=box(.105,.105,.105,mBlack);jaw.position.x=side*.578;g.add(jaw);
+    var pl=box(.004,.062,.062,mEmboss);pl.position.x=side*.6315;g.add(pl);
+    var ring=X(tor(.026,.006,mBlack2,28));ring.position.x=side*.515;g.add(ring);
+    g.position.set(0,1.62,0);return g;}
+  part(jawAxis(-1),[-.66,-.22,.16],[0,.5,.3],.44,.60);
+  part(jawAxis(1),[.66,-.2,.18],[0,-.5,-.3],.46,.62,"100-07 · RAHMENSTÜTZE",.10,.5);
+  /* ---- Sicherheitsschraubstock: geschlitzte Klemmhülse + Knebel ---- */
+  var vise=new THREE.Group();
+  vise.add(X(cyl(.050,.24,mBlack)));
+  var slot=box(.15,.012,.006,mBlack2);slot.position.set(0,.048,0);vise.add(slot);
+  var knr=X(tor(.054,.011,mOr2,32));knr.position.x=-.095;vise.add(knr);
+  vise.position.set(.22,1.62,0);part(vise,[.48,-.34,.52],[.9,0,0],.52,.68,"SICHERHEITSSCHRAUBSTOCK",.14);
+  /* ---- 100-11 · Flansch-Gelenk unten ---- */
+  var lower=new THREE.Group();
+  var lt=cyl(.019,.14,mSteel,20);lt.position.y=.04;lower.add(lt);
+  var lk=box(.056,.05,.062,mBlack);lk.position.y=-.045;lower.add(lk);
+  var lax=X(cyl(.012,.08,mSteel,12));lax.position.y=-.045;lower.add(lax);
+  lower.position.set(0,1.50,0);part(lower,[-.24,-.46,.38],[.6,0,.3],.58,.72,"100-11 · FLANSCH-GELENK",.10);
+  /* ---- 100-08 · Flansch (Rückplatte Ø 300) ---- */
   var plate=new THREE.Group();
-  var disc=cyl(.40,.035,mBlack2,48);disc.rotation.x=Math.PI/2;plate.add(disc);
-  [.335,.27,.205].forEach(function(rr){var rg=tor(rr,.007,mSteel);rg.position.z=.02;plate.add(rg);});
-  var tab=box(.08,.10,.03,mBlack);tab.position.set(0,.15,-.005);plate.add(tab);
-  plate.position.set(0,1.70,.075);part(plate,[.3,-.9,.75],[0,.55,0],.44,.64);
-  /* Dartscheibe (stilisiert — Scheibe nicht im Lieferumfang) */
+  var disc=Z(cyl(.235,.028,mBlack2,48));plate.add(disc);
+  for(var b=0;b<8;b++){var an=b/8*Math.PI*2,hp=Z(cyl(.009,.036,mBlack,10));
+    hp.position.set(Math.cos(an)*.19,Math.sin(an)*.19,0);plate.add(hp);}
+  var rr2=tor(.205,.005,mSteel,48);rr2.position.z=.016;plate.add(rr2);
+  var hb=Z(cyl(.05,.03,mBlack));hb.position.z=-.02;plate.add(hb);
+  plate.position.set(0,1.62,.115);part(plate,[.17,-.6,.6],[0,.7,.2],.62,.78,"100-08 · FLANSCH Ø 300",.28);
+  /* ---- Dartscheibe (stilisiert — nicht im Lieferumfang) ---- */
   var board=new THREE.Group();
-  var body=cyl(.345,.04,mBlack,48);body.rotation.x=Math.PI/2;board.add(body);
-  var face=cyl(.33,.012,mCream,48);face.rotation.x=Math.PI/2;face.position.z=.024;board.add(face);
-  for(var k=0;k<10;k++){var sp=box(.006,.64,.004,mBlack);sp.rotation.z=k*Math.PI/10;sp.position.z=.033;board.add(sp);}
-  var dd=tor(.318,.013,mRed);dd.position.z=.034;board.add(dd);
-  var tt2=tor(.195,.013,mGreen);tt2.position.z=.034;board.add(tt2);
-  var br=tor(.048,.016,mGreen,32);br.position.z=.036;board.add(br);
-  var bu=cyl(.028,.014,P3.bull,24);bu.rotation.x=Math.PI/2;bu.position.z=.036;board.add(bu);
-  var rim2=tor(.338,.012,mBlack2,60);rim2.position.z=.028;board.add(rim2);
-  board.position.set(0,1.70,.125);part(board,[0,-1.25,1.2],[.25,-.7,0],.54,.76);
+  var body=Z(cyl(.345,.042,mBlack,56));board.add(body);
+  var rim2=tor(.338,.024,mBlack2,64);rim2.position.z=.008;board.add(rim2);
+  var mFace=new THREE.MeshStandardMaterial({map:boardTexture(),roughness:.82,metalness:.02});
+  var face=new THREE.Mesh(new THREE.CircleGeometry(.332,56),mFace);face.position.z=.0225;board.add(face);
+  var bu=Z(cyl(.017,.008,P3.bull,20));bu.position.z=.026;board.add(bu);
+  board.position.set(0,1.62,.19);
+  P3.board=part(board,[0,-.82,.85],[.3,-.7,0],.70,.86,"STEELDART-BOARD · NICHT ENTHALTEN",.42);
+  /* ---- Der Dart — Finale ---- */
+  var dart=new THREE.Group();
+  var tip=Z(cyl(.0055,.10,mSteel,10));tip.position.z=-.175;dart.add(tip);
+  var tc=new THREE.Mesh(new THREE.ConeGeometry(.0055,.028,10),mSteel);tc.rotation.x=-Math.PI/2;tc.position.z=-.239;dart.add(tc);
+  var bar=Z(cyl(.014,.15,mBlack2,14));bar.position.z=-.045;dart.add(bar);
+  var shf=Z(cyl(.008,.12,mBlack,10));shf.position.z=.09;dart.add(shf);
+  for(var f=0;f<3;f++){var fl=box(.0022,.078,.088,P3.bull);
+    fl.position.z=.195;fl.rotation.z=f*Math.PI*2/3;fl.position.x=Math.sin(f*Math.PI*2/3)*.037;fl.position.y=Math.cos(f*Math.PI*2/3)*.037;dart.add(fl);}
+  dart.position.set(.07,1.685,.455);dart.rotation.set(-.16,.20,.35);
+  P3.dart=part(dart,[1.7,.35,2.0],[-.25,.5,2.2],.885,.968);
   P3.ok=true;fit3D();applyTheme3D();
 }
 function fit3D(){if(!P3.ok)return;var ww=canvas.clientWidth,hh=canvas.clientHeight;
-  if(ww<2||hh<2)return;P3.ren.setSize(ww,hh,false);P3.cam.aspect=ww/hh;P3.cam.updateProjectionMatrix();}
+  if(ww<2||hh<2)return;P3.ren.setSize(ww,hh,false);var asp=ww/hh;
+  P3.cam.aspect=asp;P3.cam.zoom=asp<.9?.68:1;P3.cam.updateProjectionMatrix();}
 function applyTheme3D(){if(!P3.ok)return;var dark=root.getAttribute("data-theme")==="dark";
-  P3.hemi.intensity=dark?.78:1.05;P3.key.intensity=dark?1.35:1.45;P3.rim.intensity=dark?.75:.35;}
+  P3.hemi.intensity=dark?.85:1.05;P3.key.intensity=dark?1.5:1.45;P3.rim.intensity=dark?.95:.35;}
 new MutationObserver(applyTheme3D).observe(root,{attributes:true,attributeFilter:["data-theme"]});
 
-/* ---------- Maus-Parallax + Cursor-Glow ---------- */
+/* ---------- Maus-Parallax + Cursor-Glow (v3: fühlbar — Rig kippt, Ebenen driften) ---------- */
 var mx=0,my=0,tx=0,ty=0,fine=w.matchMedia("(pointer: fine)").matches;
 if(fine&&!reduced){
   stage.addEventListener("pointermove",function(e){
     var r=stage.getBoundingClientRect();
     var nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
-    tx=(nx-.5)*2;ty=(ny-.5)*2;
+    tx=clamp((nx-.5)*2,-1,1);ty=clamp((ny-.5)*2,-1,1);
     stage.style.setProperty("--gx",(nx*100).toFixed(1)+"%");
     stage.style.setProperty("--gy",(ny*100).toFixed(1)+"%");});
   stage.addEventListener("pointerleave",function(){tx=0;ty=0;});
 }
+/* Am Handy: Gyroskop statt Maus (Android; iOS bleibt ruhig statt Permission-Popup) */
+if(!fine&&!reduced&&"DeviceOrientationEvent" in w&&typeof DeviceOrientationEvent.requestPermission!=="function"){
+  w.addEventListener("deviceorientation",function(e){
+    if(e.gamma==null)return;
+    tx=clamp(e.gamma/26,-1,1);ty=clamp((e.beta-45)/26,-1,1);},{passive:true});
+}
 
-/* ---------- Master-Loop ---------- */
-var rigVisible=true;
+/* ---------- Master-Loop (v3: Rig-Tilt, Dart-Einschlag, CAD-Callouts, Montage-Counter) ---------- */
+var rigVisible=true, lastPct=-1, V3=w.THREE?new THREE.Vector3():null;
 new IntersectionObserver(function(es){es.forEach(function(e){rigVisible=e.isIntersecting;});},
   {rootMargin:"180px"}).observe(stage);
 function scrollyProgress(){var total=scrolly.offsetHeight-w.innerHeight;
   return clamp((w.scrollY-scrolly.offsetTop)/(total||1),0,1);}
-function tick3D(p){
+function updateLabels(p){
+  if(!P3.labs.length)return;
+  var ww=canvas.clientWidth,hh=canvas.clientHeight;
+  P3.labs.forEach(function(L){
+    var on=!reduced&&p>L.rec.s+.06&&p<L.rec.e+.05;
+    L.el.classList.toggle("on",on);
+    if(!on)return;
+    L.rec.o.getWorldPosition(V3);V3.y+=L.dy;V3.x+=L.dx;V3.project(P3.cam);
+    L.el.style.left=((V3.x*.5+.5)*ww).toFixed(1)+"px";
+    L.el.style.top=((-V3.y*.5+.5)*hh).toFixed(1)+"px";
+  });
+}
+function tick3D(p,now){
   if(!P3.ok)return;
   P3.parts.forEach(function(pt){
-    var t=reduced?1:easeOut(clamp((p-pt.s)/(pt.e-pt.s),0,1)),r=1-t;
+    var raw=clamp((p-pt.s)/(pt.e-pt.s),0,1),t=reduced?1:easeOut(raw),r=1-t;
     pt.o.position.set(pt.hx+pt.ox*r,pt.hy+pt.oy*r,pt.hz+pt.oz*r);
     pt.o.rotation.set(pt.rx+pt.qx*r,pt.ry+pt.qy*r,pt.rz+pt.qz*r);
+    if(pt===P3.dart&&raw>0&&raw<1){pt.o.position.y+=Math.sin(raw*Math.PI)*.16;}
+    if(!reduced){
+      if(raw>=1&&!pt.dock)pt.dock=now;
+      if(raw<1&&pt.dock)pt.dock=0;
+      if(pt.dock){var dt=(now-pt.dock)/1e3,
+        s=1+(dt<.9?Math.sin(dt*17)*.045*Math.exp(-dt*5.5):0);
+        pt.o.scale.setScalar(s);}
+    }
   });
-  var pu=clamp((p-.86)/.11,0,1);
-  P3.bull.emissiveIntensity=Math.sin(pu*Math.PI)*.95;
-  var a=-.72+p*.98+mx*.26, rad=3.25, cy2=1.42+p*.40-my*.22;
+  /* Dart-Einschlag: Board zittert, Bull glüht auf */
+  var imp=P3.dart&&P3.dart.dock?(now-P3.dart.dock)/1e3:-1;
+  if(P3.board&&imp>=0&&imp<1.4&&!reduced){
+    P3.board.o.rotation.z=P3.board.rz+Math.sin(imp*24)*.014*Math.exp(-imp*4.2);
+    P3.board.o.position.z=P3.board.hz-Math.sin(Math.min(imp*30,Math.PI))*.008;}
+  var glow=reduced?.4:(imp>=0?Math.max(.38,1.15*Math.exp(-imp*2.2)):clamp((p-.90)/.07,0,1)*.35);
+  P3.bull.emissiveIntensity=glow;
+  /* Kamera: Scroll-Orbit + Maus + Idle-Drift + Einschlag-Kick */
+  var idle=reduced?0:Math.sin(now*.00035)*.02;
+  var kick=(imp>=0&&imp<.7&&!reduced)?Math.sin(imp*32)*.012*Math.exp(-imp*6):0;
+  var a=-.72+p*.98+mx*.30+idle, rad=3.25+(1-p)*.9, cy2=1.42+p*.40-my*.30+kick;
   P3.cam.position.set(Math.sin(a)*rad,cy2,Math.cos(a)*rad);
-  P3.cam.lookAt(0,1.62,0);
+  P3.cam.lookAt(0,1.62+(1-p)*.14,0);
+  if(P3.rig){P3.rig.rotation.y=mx*.10;P3.rig.rotation.x=my*.05;}
   P3.ren.render(P3.scene,P3.cam);
+  updateLabels(p);
 }
-function masterLoop(){
-  mx+=(tx-mx)*.07;my+=(ty-my)*.07;
+function masterLoop(now){
+  mx+=(tx-mx)*.12;my+=(ty-my)*.12;
   stage.style.setProperty("--mx",mx.toFixed(4));
   stage.style.setProperty("--my",my.toFixed(4));
   onProg();
   var p=reduced?1:scrollyProgress();
-  if(rigVisible)tick3D(p);
+  if(rigVisible)tick3D(p,now||0);
+  if(pctEl){var pct=Math.round(p*100);
+    if(pct!==lastPct){lastPct=pct;
+      pctEl.textContent=pct>=100?"· MONTAGE 100% — WIRF!":"· MONTAGE "+pct+"%";}}
   if(!reduced){
     hint.classList.toggle("off",p>.04);
     if(dimOv)dimOv.classList.toggle("show",p>.8);
